@@ -20,6 +20,7 @@ public class UserEntity {
     private String lastName;
     private String email;
     private String address;
+    private String cellphone;
     private String password;
     @Enumerated(EnumType.STRING)
     private UserType userType;
