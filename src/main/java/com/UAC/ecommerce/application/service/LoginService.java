@@ -12,9 +12,9 @@ public class LoginService {
     }
 
     //retorna true si encuentra el usuario
-    public boolean existUser(UserDto userDto){
+    public boolean existUser(String email){
         try {
-            User user = userService.findByEmail(userDto.getEmail());
+            User user = userService.findByEmail(email);
         }catch (Exception e){
             return false;
         }
@@ -31,8 +31,8 @@ public class LoginService {
         }
     }
     //obtenemos el tipo de usuario
-    public UserType getUserType(UserDto userDto){
-        return userService.findByEmail(userDto.getEmail()).getUserType();
+    public UserType getUserType(String email){
+        return userService.findByEmail(email ).getUserType();
     }
 
     //obtenemos el usuario por email
@@ -42,7 +42,16 @@ public class LoginService {
 
         }catch (Exception e){
             return new User();
+        }
+    }
 
+    //obtenemos el usuario por id
+    public User getUser(Long id){
+        try{
+            return userService.findById(id);
+
+        }catch (Exception e){
+            return new User();
         }
     }
 }

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Data
 public class UserDto {
 
+    private String username;
     @NotBlank(message = "Nombre es requerido")
     private String firstName;
     @NotBlank(message = "Apellido es requerido")
