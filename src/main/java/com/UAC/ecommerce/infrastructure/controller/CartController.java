@@ -1,6 +1,7 @@
 package com.UAC.ecommerce.infrastructure.controller;
 
 import com.UAC.ecommerce.application.service.CartService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,10 +33,11 @@ public class CartController {
     }
 
     @GetMapping("/get-cart")
-    public String getCart(Model model){
+    public String getCart(Model model, HttpSession httpSession){
         showCart();
         model.addAttribute("cart", cartService.getItemCarts());
         model.addAttribute("total", cartService.getTotalCart());
+        model.addAttribute("id", httpSession.getAttribute("iduser").toString());
         return "/user/cart/cart";
     }
 

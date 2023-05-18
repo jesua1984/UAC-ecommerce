@@ -2,6 +2,7 @@ package com.UAC.ecommerce.application.service;
 
 import com.UAC.ecommerce.application.repository.OrderRepository;
 import com.UAC.ecommerce.domain.Order;
+import com.UAC.ecommerce.domain.User;
 
 public class OrderService {
     private final OrderRepository orderRepository;
@@ -16,5 +17,11 @@ public class OrderService {
 
     public Iterable<Order> getOrders(){
         return orderRepository.getOrders();
+    }
+
+    public Iterable<Order> getOrdersByUser(User user){
+        return orderRepository.getOrdersByUser(user);
+
+
     }
 }

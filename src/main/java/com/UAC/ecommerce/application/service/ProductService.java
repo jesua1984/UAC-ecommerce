@@ -3,6 +3,7 @@ package com.UAC.ecommerce.application.service;
 import com.UAC.ecommerce.application.repository.ProductRepository;
 import com.UAC.ecommerce.domain.Product;
 import com.UAC.ecommerce.domain.User;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -29,10 +30,10 @@ public class ProductService {
         return productRepository.getProductById(id);
     }
 
-    public Product saveProduct(Product product, MultipartFile multipartFile) throws IOException {
+    public Product saveProduct(Product product, MultipartFile multipartFile, HttpSession httpSession) throws IOException {
         if (Long.valueOf(product.getId())==0){
             User user = new User();
-            user.setId(1L);
+            user.setId(Long.valueOf(httpSession.getAttribute("iduser").toString()));
             product.setDateCreated(LocalDateTime.now());
             product.setDateUpdated(LocalDateTime.now());
             product.setUser(user);
