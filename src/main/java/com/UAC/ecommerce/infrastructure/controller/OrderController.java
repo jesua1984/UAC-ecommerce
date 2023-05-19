@@ -54,7 +54,14 @@ public class OrderController {
         log.info("id user desde la variable de sesion: {}",httpSession.getAttribute("iduser").toString());
 
         //obtener un usuario temporal
-        User user= userService.findById(Long.valueOf(httpSession.getAttribute("iduser").toString()));;
+        User user= userService.findById(Long.valueOf(httpSession.getAttribute("iduser").toString()));
+
+        // Verificar si el carrito está vacío
+        if (cartService.getItemCarts().isEmpty()) {
+            // Carrito vacío, mostrar mensaje de error o redirigir a una página de error
+            attributes.addFlashAttribute("message", "El carrito está vacío. No se puede crear la orden.");
+            return "redirect:/user/order/sumary-order";
+        }
 
         //order
         Order order= new Order();

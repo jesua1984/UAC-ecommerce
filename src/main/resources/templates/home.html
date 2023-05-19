@@ -12,7 +12,7 @@
 
 
   <!-- Bootstrap core CSS -->
-  <link th:href="@{vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 
   <!-- Custom styles for this template -->
   <link th:href="@{css/heroic-features.css}" rel="stylesheet">
@@ -35,6 +35,19 @@
         <p class="lead">Tu tienda de productos del mar en Línea</p>
       </header>
 
+      <!-- Formulario de búsqueda -->
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <form th:action="@{/home/search}" method="post" class="form-inline">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Buscar producto..." name="keyword">
+            </div>
+            <button class="btn btn-outline-secondary ml-2" type="submit">Buscar</button>
+          </form>
+        </div>
+
+      </div>
+
       <!-- Page Features -->
       <div class="row text-center">
 
@@ -53,6 +66,23 @@
       </div>
       <!-- /.row -->
 
+      <!-- Pagination -->
+      <nav>
+        <ul class="pagination justify-content-center">
+          <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+            <a class="page-link" th:href="@{/home(page=${currentPage - 1}, pageSize=${pageSize})}">Previo</a>
+          </li>
+          <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, totalPages-1)}">
+            <a class="page-link" th:href="@{/home(page=${pageNumber}, pageSize=${pageSize})}" th:text="${pageNumber+1}"></a>
+          </li>
+          <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? disabled">
+            <a class="page-link" th:href="@{/home(page=${currentPage + 1}, pageSize=${pageSize})}">Siguiente</a>
+          </li>
+        </ul>
+      </nav>
+
+
+
     </div>
     <!-- /.container -->
 
@@ -61,8 +91,8 @@
 
 
   <!-- Bootstrap core JavaScript -->
-    <script th:src="@{vendor/jquery/jquery.min.js}"></script>
-    <script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
   </body>
 

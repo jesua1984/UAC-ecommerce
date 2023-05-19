@@ -4,10 +4,14 @@ import com.UAC.ecommerce.application.repository.ProductRepository;
 import com.UAC.ecommerce.domain.Product;
 import com.UAC.ecommerce.domain.User;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 public class ProductService {
     private final ProductRepository productRepository;
@@ -66,5 +70,9 @@ public class ProductService {
 
     }
 
+    public Page<Product> getProductsPage(int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return productRepository.findAll(pageable);
+    }
 
 }

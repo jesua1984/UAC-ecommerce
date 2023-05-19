@@ -46,6 +46,9 @@
           <div class="row">
            <div class="col-lg-9">
              <div class="card-body">
+                 <div th:if="${message}" class="alert alert-danger">
+                     <p th:text="${message}"></p>
+                 </div>
               <h5 class="card-title">
                 DATOS ORDEN
               </h5>

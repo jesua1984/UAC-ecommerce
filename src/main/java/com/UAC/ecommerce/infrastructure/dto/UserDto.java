@@ -17,6 +17,9 @@ public class UserDto {
     private String firstName;
     @NotBlank(message = "Apellido es requerido")
     private String lastName;
+
+    @NotBlank(message = "cédula de es requerida")
+    private String personalId;
     @Email(message = "Debe ingresar un email valido")
     private String email;
     @NotBlank(message = "Dirección es requerida")
@@ -28,7 +31,7 @@ public class UserDto {
     private String password;
 
     public User userDtoToUser(){
-        return new User(null,this.getEmail(),this.getFirstName(), this.getLastName(), this.getEmail(),this.getAddress(),
+        return new User(null,this.getEmail(),this.getFirstName(), this.getLastName(), this.getPersonalId(), this.getEmail(),this.getAddress(),
                 this.getCellphone(),this.getPassword(), UserType.USER, LocalDateTime.now());
     }
 }

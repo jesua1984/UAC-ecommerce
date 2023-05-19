@@ -2,13 +2,15 @@ package com.UAC.ecommerce.infrastructure.controller;
 
 import com.UAC.ecommerce.application.service.ProductService;
 import com.UAC.ecommerce.application.service.StockService;
+import com.UAC.ecommerce.domain.Product;
 import com.UAC.ecommerce.domain.Stock;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -25,14 +27,25 @@ public class HomeController {
     }
 
     @GetMapping
-    public String home(Model model, HttpSession httpSession){
-        model.addAttribute("products",productService.getProducts());
-        try{
-            model.addAttribute("id", httpSession.getAttribute("iduser").toString());
-        }catch (Exception e){
+    public String home(Model model, HttpSession httpSession, @RequestParam(defaultValue = "0") int page,
+                       @RequestParam(defaultValue = "5") int pageSize){
+        //model.addAttribute("products",productService.getProducts());
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Product> productPage = productService.getProductsPage(page, pageSize);
 
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        model.addAttribute("totalItems", productPage.getTotalElements());
+
+        try {
+            model.addAttribute("id", httpSession.getAttribute("iduser").toString());
+        } catch (Exception e) {
+            // Manejar excepción
         }
+
         return "home";
+
     }
 
     @GetMapping("/product-detail/{id}")
@@ -50,5 +63,6 @@ public class HomeController {
         return "user/productdetail";
 
     }
+
 
 }

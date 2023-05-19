@@ -5,6 +5,8 @@ import com.UAC.ecommerce.domain.Product;
 import com.UAC.ecommerce.domain.User;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +61,5 @@ public class ProductController {
         productService.deleteProductById(id);
         return "redirect:/admin/products/show";
     }
-
 
 }

@@ -5,7 +5,11 @@ import com.UAC.ecommerce.domain.Product;
 import com.UAC.ecommerce.domain.User;
 import com.UAC.ecommerce.infrastructure.mapper.ProductMapper;
 import com.UAC.ecommerce.infrastructure.mapper.UserMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
@@ -46,4 +50,11 @@ public class ProductRepositoryImpl implements ProductRepository {
         productCrudRepository.deleteById(id);
 
     }
+
+    @Override
+    public Page<Product> findAll(Pageable pageable) {
+        return productCrudRepository.findAll(pageable);
+    }
+
+
 }
