@@ -64,5 +64,16 @@ public class HomeController {
 
     }
 
+    @PostMapping("/search")
+    public String searchProducts(@RequestParam("keyword") String keyword, Model model) {
+        List<Product> products = productService.findProductsByName(keyword);
+        model.addAttribute("products", products);
+        model.addAttribute("currentPage", null);  // Reiniciar a la primera página
+        model.addAttribute("totalPages", null);   // Reiniciar el número total de páginas
+        model.addAttribute("totalItems", products.size());   // Reiniciar el número total de elementos
+        return "home";
+    }
+
+
 
 }

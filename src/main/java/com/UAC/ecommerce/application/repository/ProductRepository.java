@@ -21,6 +21,6 @@ public interface ProductRepository {
 
     Page<Product> findAll(Pageable pageable);
 
-
+    List<Product> findByNameContainingIgnoreCase(String keyword);
 
 }

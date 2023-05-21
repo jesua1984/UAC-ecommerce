@@ -17,6 +17,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final UploadFile uploadFile;
 
+
     public ProductService(ProductRepository productRepository, UploadFile uploadFile) {
         this.productRepository = productRepository;
         this.uploadFile = uploadFile;
@@ -73,6 +74,10 @@ public class ProductService {
     public Page<Product> getProductsPage(int page, int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
         return productRepository.findAll(pageable);
+    }
+
+    public List<Product> findProductsByName(String keyword) {
+        return productRepository.findByNameContainingIgnoreCase(keyword);
     }
 
 }

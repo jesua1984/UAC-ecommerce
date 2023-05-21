@@ -16,4 +16,4 @@ public interface ProductCrudRepository extends CrudRepository<ProductEntity,Long
     Page<Product> findAll(Pageable pageable);
 
 
-}
+    List<ProductEntity> findByNameContainingIgnoreCase(String keyword);}

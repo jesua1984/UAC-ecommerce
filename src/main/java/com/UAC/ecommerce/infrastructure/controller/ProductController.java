@@ -1,11 +1,15 @@
 package com.UAC.ecommerce.infrastructure.controller;
 
+import com.UAC.ecommerce.application.repository.ProductRepository;
 import com.UAC.ecommerce.application.service.ProductService;
 import com.UAC.ecommerce.domain.Product;
 import com.UAC.ecommerce.domain.User;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/products")
@@ -21,8 +26,12 @@ public class ProductController {
 
     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
+    private final ProductRepository productRepository;
+
+
+    public ProductController(ProductService productService, ProductRepository productRepository) {
         this.productService = productService;
+        this.productRepository = productRepository;
     }
 
     @GetMapping("/create")
@@ -60,6 +69,18 @@ public class ProductController {
     public String deleteProduct(@PathVariable Long id){
         productService.deleteProductById(id);
         return "redirect:/admin/products/show";
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> searchProducts(@RequestParam("keyword") String keyword) {
+        List<Product> products = productRepository.findByNameContainingIgnoreCase(keyword);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/pages")
+    public ResponseEntity<Page<Product>> getProductsPaged(SpringDataWebProperties.Pageable pageable) {
+        Page<Product> products = productRepository.findAll((Pageable) pageable);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
 }

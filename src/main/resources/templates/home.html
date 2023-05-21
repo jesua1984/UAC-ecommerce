@@ -17,6 +17,30 @@
   <!-- Custom styles for this template -->
   <link th:href="@{css/heroic-features.css}" rel="stylesheet">
 
+  <style type="text/css">
+  .jumbotron {
+  position: relative;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/pescados1.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  height: 350px;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  }
+
+.container-fluid {
+  height: 100%;
+  padding: 0;
+}
+
+
+  </style>
+
+
 </head>
 
 <body>
@@ -26,26 +50,29 @@
 
   <div th:insert = "~{user/template_user::userlogged}" th:unless="${id==null}"></div>
 
+  <!-- Jumbotron Header -->
+  <div class="container-fluid">
+    <!-- Aquí va el contenido de la página -->
+    <header class="jumbotron my-4">
+      <h1 class="display-3">BIENVENIDOS A PESCADERIA FIDYFER</h1>
+      <p class="lead">Tu tienda de productos del mar en Línea</p>
+    </header>
+  </div>
+
   <!-- Page Content -->
     <div class="container">
 
-      <!-- Jumbotron Header -->
-      <header class="jumbotron my-4">
-        <h1 class="display-3">BIENVENIDOS A PESCADERIA FIDYFER</h1>
-        <p class="lead">Tu tienda de productos del mar en Línea</p>
-      </header>
 
       <!-- Formulario de búsqueda -->
-      <div class="row mb-3">
-        <div class="col-md-12">
-          <form th:action="@{/home/search}" method="post" class="form-inline">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="Buscar producto..." name="keyword">
-            </div>
-            <button class="btn btn-outline-secondary ml-2" type="submit">Buscar</button>
-          </form>
-        </div>
+      <div class="col-md-12">
+        <form class="form-inline my-2 my-lg-0" method="post"
+              action="/home/search">
+          <input class="form-control mr-sm-2" type="search"
+                 placeholder="Buscar" aria-label="Search" name="nombre"
+                 autocomplete="off">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
 
+        </form>
       </div>
 
       <!-- Page Features -->
@@ -67,7 +94,7 @@
       <!-- /.row -->
 
       <!-- Pagination -->
-      <nav>
+      <nav th:if="${totalPages != null}">
         <ul class="pagination justify-content-center">
           <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
             <a class="page-link" th:href="@{/home(page=${currentPage - 1}, pageSize=${pageSize})}">Previo</a>
@@ -80,6 +107,17 @@
           </li>
         </ul>
       </nav>
+
+      <nav th:if="${totalPages == null}">
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link" th:href="@{/home}">Volver</a>
+          </li>
+
+        </ul>
+      </nav>
+
+
 
 
 

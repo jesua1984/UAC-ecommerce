@@ -3,8 +3,13 @@ package com.UAC.ecommerce.infrastructure.adapter;
 import com.UAC.ecommerce.application.repository.ProductRepository;
 import com.UAC.ecommerce.domain.Product;
 import com.UAC.ecommerce.domain.User;
+import com.UAC.ecommerce.infrastructure.entity.ProductEntity;
 import com.UAC.ecommerce.infrastructure.mapper.ProductMapper;
 import com.UAC.ecommerce.infrastructure.mapper.UserMapper;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -17,6 +22,9 @@ public class ProductRepositoryImpl implements ProductRepository {
     private final ProductCrudRepository productCrudRepository;
     private final ProductMapper  productMapper;
     private final UserMapper userMapper;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public ProductRepositoryImpl(ProductCrudRepository productCrudRepository, ProductMapper productMapper, UserMapper userMapper) {
         this.productCrudRepository = productCrudRepository;
@@ -54,6 +62,11 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public Page<Product> findAll(Pageable pageable) {
         return productCrudRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Product> findByNameContainingIgnoreCase(String keyword) {
+        return (List<Product>) productMapper.toProduct(productCrudRepository.findByNameContainingIgnoreCase(keyword));
     }
 
 
