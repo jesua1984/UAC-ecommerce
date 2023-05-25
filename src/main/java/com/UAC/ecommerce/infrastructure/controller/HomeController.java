@@ -29,7 +29,6 @@ public class HomeController {
     @GetMapping
     public String home(Model model, HttpSession httpSession, @RequestParam(defaultValue = "0") int page,
                        @RequestParam(defaultValue = "5") int pageSize){
-        //model.addAttribute("products",productService.getProducts());
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Product> productPage = productService.getProductsPage(page, pageSize);
 

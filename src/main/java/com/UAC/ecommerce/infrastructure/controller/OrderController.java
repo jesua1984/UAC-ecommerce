@@ -67,6 +67,7 @@ public class OrderController {
         Order order= new Order();
         order.setDateCreated(LocalDateTime.now());
         order.setUser(user);
+        order.setOrderStatus("Creada");
 
         order = orderService.createOrder(order);
 

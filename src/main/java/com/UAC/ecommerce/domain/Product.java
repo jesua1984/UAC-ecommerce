@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,7 +21,9 @@ public class Product {
     private String image;
     private BigDecimal price;
 
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime dateCreated;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime dateUpdated;
 
     private User user;

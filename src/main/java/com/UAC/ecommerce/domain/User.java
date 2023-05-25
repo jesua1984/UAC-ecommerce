@@ -3,6 +3,7 @@ package com.UAC.ecommerce.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -21,5 +22,7 @@ public class User {
     private String cellphone;
     private String password;
     private UserType userType;
+
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime dateCreated;
 }

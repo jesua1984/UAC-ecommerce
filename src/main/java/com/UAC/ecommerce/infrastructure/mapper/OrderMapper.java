@@ -13,6 +13,7 @@ public interface OrderMapper {
             {
                     @Mapping(source="id", target="id"),
                     @Mapping(source="dateCreated", target="dateCreated"),
+                    @Mapping(source="orderStatus", target="orderStatus"),
                     @Mapping(source="user", target="user")
 
             }

@@ -7,6 +7,9 @@ import com.UAC.ecommerce.infrastructure.mapper.OrderMapper;
 import com.UAC.ecommerce.infrastructure.mapper.UserMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public class OrderRepositoryImpl implements OrderRepository {
     private final OrderCrudRepository orderCrudRepository;
@@ -34,4 +37,5 @@ public class OrderRepositoryImpl implements OrderRepository {
     public Iterable<Order> getOrdersByUser(User user) {
         return orderMapper.toOrders(orderCrudRepository.findByUser(userMapper.toUserEntity(user)));
     }
+
 }

@@ -4,6 +4,9 @@ import com.UAC.ecommerce.application.repository.OrderRepository;
 import com.UAC.ecommerce.domain.Order;
 import com.UAC.ecommerce.domain.User;
 
+import java.util.List;
+import java.util.Optional;
+
 public class OrderService {
     private final OrderRepository orderRepository;
 
@@ -21,7 +24,6 @@ public class OrderService {
 
     public Iterable<Order> getOrdersByUser(User user){
         return orderRepository.getOrdersByUser(user);
-
-
     }
+
 }

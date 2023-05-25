@@ -49,14 +49,14 @@
               <thead>
                 <tr>
                   <th scope="col">Id</th>
-                  <th scope="col">Fecha</th>
+                  <th scope="col">Fecha de Compra</th>
                   <th scope="col">Valor</th>
                 </tr>
               </thead>
               <tbody th:each="order:${orders}">
                 <tr>
                   <td th:text="${order.id}">4555454</td>
-                  <td th:text="${order.dateCreated}">Fecha de Compra</td>
+                  <td th:text="${#temporals.format(order.dateCreated, 'dd-MM-yyyy')}">Fecha de Compra</td>
                   <td th:text="${order.getTotalOrderPrice()}">Total</td>
                 </tr>
               </tbody>

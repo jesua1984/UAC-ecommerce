@@ -51,7 +51,7 @@
     </thead>
     <tbody>
       <tr th:each="stock:${stocks}">
-        <td th:text="${stock.dateCreated}"></td>
+        <td th:text="${#temporals.format(stock.dateCreated, 'dd-MM-yyyy')}"></td>
         <td th:text="${stock.unitIn}"></td>
         <td th:text="${stock.unitOut}"></td>
         <td th:text="${stock.description}"></td>

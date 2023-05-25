@@ -13,6 +13,9 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime dateCreated;
+
+    private String orderStatus;
+
     @ManyToOne
     private  UserEntity user;
 }
