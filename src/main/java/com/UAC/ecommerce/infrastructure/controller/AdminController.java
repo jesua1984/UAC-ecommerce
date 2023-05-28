@@ -12,9 +12,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,5 +80,25 @@ public class AdminController {
         model.addAttribute("orders", newListOrder);
 
         return "admin/orders/orderdetails";
+    }
+
+    @PostMapping("/orders/{orderId}/change-status")
+    public String changeOrderStatus(@PathVariable Long orderId, @RequestParam("orderStatus") String status, RedirectAttributes attributes) {
+        // Obtener la orden por su ID
+        Order order = orderService.getOrderById(orderId);
+
+        if (order == null) {
+            // La orden no existe, mostrar mensaje de error o redirigir a una página de error
+            attributes.addFlashAttribute("message", "La orden no existe.");
+            return "redirect:/admin/orders/all";
+        }
+
+        // Actualizar el estado de la orden
+        order.setOrderStatus(status);
+        orderService.updateOrder(order);
+
+        // Redirigir a la página de detalles de la orden
+        attributes.addFlashAttribute("success", "Estado de orden cambiado correctamente.");
+        return "redirect:/admin/orders/all";
     }
 }

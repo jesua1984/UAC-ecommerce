@@ -25,6 +25,8 @@ public class UserEntity {
     private String password;
     @Enumerated(EnumType.STRING)
     private UserType userType;
+
+    private String userStatus;
     private LocalDateTime dateCreated;
 
 }

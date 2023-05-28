@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.io.IOException;
 
 @Controller
@@ -24,11 +26,12 @@ public class UserController {
         return "/admin/users/create";
     }
 
-    @PostMapping("/save-product")
-    public String createUser(User user) throws IOException {
+    @PostMapping("/save-user")
+    public String createUser(User user, RedirectAttributes attributes) {
         log.info("Nombre del usuario: {}",user);
         userService.saveUser(user);
-        //return "admin/products/create";
+        attributes.addFlashAttribute("success", "Usuario actualizado correctamente");
+        log.info("Success message: {}", attributes.getFlashAttributes().get("success"));
         return "redirect:/admin/users/show";
     }
     @GetMapping("/show")
@@ -47,8 +50,20 @@ public class UserController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable Long id){
-        userService.deleteUserById(id);
-        return "redirect:/admin/users/show";
+    public String deleteUser(@PathVariable Long id, RedirectAttributes attributes ){
+
+        try {
+
+            userService.deleteUserById(id);
+            attributes.addFlashAttribute("success", "Usuario eliminado correctamente");
+            return "redirect:/admin/users/show";
+
+        } catch (Exception e) {
+
+            attributes.addFlashAttribute("success", "Imposible eliminar usuario con ordenes de compra");
+            return "redirect:/admin/users/show";
+
+        }
+
     }
 }

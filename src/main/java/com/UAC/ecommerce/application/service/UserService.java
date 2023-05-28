@@ -29,17 +29,19 @@ public class UserService {
         return userRepository.getUsers();
     }
 
-    public void saveUser(User user) {
-    }
-
     public User getUserById(Long id) {
         return userRepository.getUserById(id);
     }
 
     public void deleteUserById(Long id) {
+        userRepository.deleteUserById(id);
     }
 
     public Iterable<User> getUsersByType(UserType userType) {
         return userRepository.findByUserType(userType);
+    }
+
+    public User saveUser(User user){
+        return userRepository.saveUser(user);
     }
 }

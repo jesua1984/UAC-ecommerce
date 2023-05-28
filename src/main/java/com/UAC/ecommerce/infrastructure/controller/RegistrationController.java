@@ -33,17 +33,20 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String registerUser(@Valid UserDto userDto, BindingResult bindingResult, RedirectAttributes redirectAttributes){
- //       user.setDateCreated(LocalDateTime.now());
- //       user.setUserType(UserType.USER);
- //       user.setUsername(user.getEmail());
+    public String registerUser(@Valid UserDto userDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        // ...
 
-        if (bindingResult.hasErrors()){
-            bindingResult.getAllErrors().forEach(
-                    e->{log.info("Error {}",e.getDefaultMessage());}
-            );
+        if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
+            bindingResult.rejectValue("confirmPassword", "error.confirmPassword", "Las contraseñas no coinciden");
+        }
+
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(e -> {
+                log.info("Error {}", e.getDefaultMessage());
+            });
             return "register";
         }
+        userDto.setUserStatus("ACTIVO");
         registrationService.register(userDto.userDtoToUser());
         redirectAttributes.addFlashAttribute("success", "Usuario creado correctamente");
         return "redirect:/login";

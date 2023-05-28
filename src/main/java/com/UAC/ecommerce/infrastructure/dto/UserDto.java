@@ -29,9 +29,13 @@ public class UserDto {
     private String cellphone;
     @NotBlank(message = "Contraseña es requerida")
     private String password;
+    @NotBlank(message = "Contraseña es requerida")
+    private String confirmPassword;
+    private String userStatus;
+
 
     public User userDtoToUser(){
         return new User(null,this.getEmail(),this.getFirstName(), this.getLastName(), this.getPersonalId(), this.getEmail(),this.getAddress(),
-                this.getCellphone(),this.getPassword(), UserType.USER, LocalDateTime.now());
+                this.getCellphone(),this.getPassword(), UserType.USER, this.getUserStatus(), LocalDateTime.now());
     }
 }

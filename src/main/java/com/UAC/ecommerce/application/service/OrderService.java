@@ -22,8 +22,17 @@ public class OrderService {
         return orderRepository.getOrders();
     }
 
+
+
     public Iterable<Order> getOrdersByUser(User user){
         return orderRepository.getOrdersByUser(user);
     }
 
+    public Order getOrderById(Long id) {
+        return orderRepository.getOrdersById(id);
+    }
+
+    public void updateOrder(Order order) {
+        orderRepository.save(order);
+    }
 }

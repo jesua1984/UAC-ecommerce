@@ -12,4 +12,7 @@
 
         public Iterable<Order> getOrdersByUser(User user);
 
+        Order getOrdersById(Long id);
+
+        void save(Order order);
     }

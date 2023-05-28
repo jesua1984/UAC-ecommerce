@@ -46,4 +46,13 @@ public class UserRepositoryImpl implements UserRepository {
         return userMapper.toUser(userCrudRepository.findByUserType(UserType.USER));
     }
 
+    @Override
+    public User saveUser(User user) {
+        return userMapper.toUser(userCrudRepository.save(userMapper.toUserEntity(user)));    }
+
+    @Override
+    public void deleteUserById(Long id) {
+        userCrudRepository.deleteById(id);
+    }
+
 }
