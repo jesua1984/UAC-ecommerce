@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Spring eCommerce</title>
+  <title>Agregar Inventario</title>
 
 
   <!-- Bootstrap core CSS -->
@@ -30,7 +30,7 @@
 
   <!-- Page Heading/Breadcrumbs -->
   <h1 class="mt-4 mb-3">
-    Spring eCommerce <small>Productos</small>
+
   </h1>
 
   <ol class="breadcrumb">
@@ -38,7 +38,7 @@
     <li class="breadcrumb-item active">Añadir unidades</li>
   </ol>
 
-  <h2>Añadir</h2>
+  <h2>Añadir unidades</h2>
   <form class="form-horizontal" th:action="@{/admin/products/stock/save-unit-product}" method="post">
     <input type="hidden" name="idproduct" th:value="${idproduct}">
     <div class="form-group">

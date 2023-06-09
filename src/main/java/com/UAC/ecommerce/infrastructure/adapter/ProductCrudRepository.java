@@ -10,7 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface ProductCrudRepository extends CrudRepository<ProductEntity,Long> {
-    Iterable<ProductEntity>findByUserEntity(UserEntity userEntity);
+    Page<ProductEntity>findByUserEntity(UserEntity userEntity, Pageable pageable);
 
 
     Page<Product> findAll(Pageable pageable);

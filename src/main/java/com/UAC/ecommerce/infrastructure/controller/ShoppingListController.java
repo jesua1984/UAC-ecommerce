@@ -7,6 +7,9 @@ import com.UAC.ecommerce.domain.Order;
 import com.UAC.ecommerce.domain.OrderProduct;
 import com.UAC.ecommerce.domain.User;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,15 +33,24 @@ public class ShoppingListController {
     }
 
     @GetMapping
-    public String showShoppingList(Model model, HttpSession httpSession){
-        List<Order> newListOrder = new ArrayList<>();
+    public String showShoppingList(Model model, HttpSession httpSession, @RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
         User user = userService.findById(Long.valueOf(httpSession.getAttribute("iduser").toString()));
-        Iterable<Order> orders = orderService.getOrdersByUser(user);
-        for (Order order: orders){
-            newListOrder.add(getOrdersProducts(order));
+        Page<Order> ordersPage = orderService.getOrdersByUser(user, pageable);
+        List<Order> orders = ordersPage.getContent();
+        List<Order> newListOrder = new ArrayList<>();
+
+        for (Order order : orders) {
+            Order orderWithProducts = getOrdersProducts(order);
+            newListOrder.add(orderWithProducts);
         }
-        model.addAttribute("id",Long.valueOf(httpSession.getAttribute("iduser").toString()));
+
+        model.addAttribute("id", Long.valueOf(httpSession.getAttribute("iduser").toString()));
         model.addAttribute("orders", newListOrder);
+        model.addAttribute("currentPage", ordersPage.getNumber());
+        model.addAttribute("pageSize", ordersPage.getSize());
+        model.addAttribute("totalPages", ordersPage.getTotalPages());
 
         return "user/shoppinglist";
     }

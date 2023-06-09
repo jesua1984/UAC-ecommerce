@@ -3,6 +3,9 @@ package com.UAC.ecommerce.application.service;
 import com.UAC.ecommerce.application.repository.OrderRepository;
 import com.UAC.ecommerce.domain.Order;
 import com.UAC.ecommerce.domain.User;
+import com.UAC.ecommerce.infrastructure.entity.UserEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,8 +27,8 @@ public class OrderService {
 
 
 
-    public Iterable<Order> getOrdersByUser(User user){
-        return orderRepository.getOrdersByUser(user);
+    public Page<Order> getOrdersByUser(User user, Pageable pageable){
+        return orderRepository.getOrdersByUser(user, pageable);
     }
 
     public Order getOrderById(Long id) {
@@ -35,4 +38,9 @@ public class OrderService {
     public void updateOrder(Order order) {
         orderRepository.save(order);
     }
+
+    public Page<Order> getOrdersPage(Pageable pageable){
+        return orderRepository.getOrdersPage(pageable);
+    }
+
 }

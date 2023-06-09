@@ -3,8 +3,14 @@ package com.UAC.ecommerce.infrastructure.adapter;
 import com.UAC.ecommerce.application.repository.UserRepository;
 import com.UAC.ecommerce.domain.User;
 import com.UAC.ecommerce.domain.UserType;
+import com.UAC.ecommerce.infrastructure.entity.UserEntity;
 import com.UAC.ecommerce.infrastructure.mapper.UserMapper;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -21,10 +27,23 @@ public class UserRepositoryImpl implements UserRepository {
         return userMapper.toUser(userCrudRepository.save(userMapper.toUserEntity(user)));
     }
 
-    @Override
+ /*   @Override
     public User findByEmail(String email) {
         return userMapper.toUser(userCrudRepository.findByEmail(email).get());
+    }*/
+
+    @Override
+    public User findByEmail(String email) {
+        Optional<UserEntity> userEntityOptional = userCrudRepository.findByEmail(email);
+        if (userEntityOptional.isPresent()) {
+            UserEntity userEntity = userEntityOptional.get();
+            return userMapper.toUser(userEntity);
+        }
+        return null; // O lanza una excepción, dependiendo de tu lógica de negocio
     }
+
+
+
 
     @Override
     public User findById(Long id) {
@@ -42,8 +61,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Iterable<User> findByUserType(UserType userType) {
-        return userMapper.toUser(userCrudRepository.findByUserType(UserType.USER));
+    public Page<User> findByUserType(UserType userType, Pageable pageable) {
+        return userMapper.toUserPage(userCrudRepository.findByUserType(UserType.USER, pageable));
     }
 
     @Override
@@ -54,5 +73,6 @@ public class UserRepositoryImpl implements UserRepository {
     public void deleteUserById(Long id) {
         userCrudRepository.deleteById(id);
     }
+
 
 }

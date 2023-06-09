@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Nosotros</title>
+
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{css/heroic-features.css}" rel="stylesheet">
+
+  <!-- Toastr CSS -->
+  <link th:href="@{/vendor/toastr/build/toastr.min.css}" rel="stylesheet">
+
+  <style type="text/css">
+    .jumbotron {
+      position: relative;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/pescados1.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      height: 350px;
+      margin-bottom: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container-fluid {
+      height: 100%;
+      padding: 0;
+    }
+
+    .blue-box {
+      background-color: #e6f2f9;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+  </style>
+
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<div th:insert="~{user/template_user::header}" th:if="${id==null}"></div>
+
+<div th:insert="~{user/template_user::userlogged}" th:unless="${id==null}"></div>
+
+<!-- Jumbotron Header -->
+<div class="container-fluid">
+  <!-- Aquí va el contenido de la página -->
+  <header class="jumbotron my-4">
+    <h1 class="display-3">Nosotros</h1>
+    <p class="lead">Pescadería Fidyfer</p>
+  </header>
+</div>
+
+<!-- Page Content -->
+<div class="container">
+  <div class="blue-box">
+    <p>
+      En la pescadería Fidyfer, nos enorgullece servir a la comunidad barranquillera desde nuestra fundación en 2018.
+      Nuestra pasión por ofrecer pescados y mariscos frescos y auténticos de la región Caribe ha sido el motor que impulsa
+      nuestro crecimiento y éxito.
+    </p>
+  </div>
+
+  <div class="blue-box">
+    <p>
+      Nuestra misión es proporcionar a nuestros clientes productos del mar de la más alta calidad, directamente de la Gran
+      Ciénaga del Magdalena. Nos esforzamos por ofrecer una amplia variedad de opciones, desde almejas y ostras hasta otras
+      delicias marinas, que satisfagan los gustos y las preferencias de todas las familias barranquilleras.
+    </p>
+  </div>
+
+  <div class="blue-box">
+    <p>
+      Como parte de nuestra visión, nos esforzamos por ser reconocidos como el destino principal para adquirir productos
+      marinos frescos

@@ -20,13 +20,12 @@ public class Product {
     private String description;
     private String image;
     private BigDecimal price;
-
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime dateCreated;
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime dateUpdated;
-
     private User user;
+    private Category category;
 
     public Product() {
         this.setCode(UUID.randomUUID().toString());

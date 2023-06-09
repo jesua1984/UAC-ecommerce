@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Spring eCommerce</title>
+  <title>Página Principal</title>
 
 
   <!-- Bootstrap core CSS -->
@@ -17,10 +17,13 @@
   <!-- Custom styles for this template -->
   <link th:href="@{css/heroic-features.css}" rel="stylesheet">
 
+  <!-- Toastr CSS -->
+  <link th:href="@{/vendor/toastr/build/toastr.min.css}" rel="stylesheet">
+
   <style type="text/css">
   .jumbotron {
   position: relative;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/pescados1.jpg');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/pescados1.jpg');
   background-size: cover;
   background-position: center;
   color: white;
@@ -36,8 +39,6 @@
   height: 100%;
   padding: 0;
 }
-
-
   </style>
 
 
@@ -64,15 +65,15 @@
 
 
       <!-- Formulario de búsqueda -->
-      <div class="col-md-12">
-        <form class="form-inline my-2 my-lg-0" method="post"
-              action="/home/search">
-          <input class="form-control mr-sm-2" type="search"
-                 placeholder="Buscar" aria-label="Search" name="nombre"
-                 autocomplete="off">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar </button>
-
-        </form>
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <form th:action="@{/home/search}" method="post" class="form-inline">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Buscar producto..." name="keyword">
+            </div>
+            <button class="btn btn-outline-secondary ml-2" type="submit">Buscar</button>
+          </form>
+        </div>
       </div>
 
       <!-- Page Features -->
@@ -116,13 +117,13 @@
 
         </ul>
       </nav>
-
-
-
-
-
     </div>
     <!-- /.container -->
+
+  <!-- Success Message -->
+  <div id="success-message" th:if="${success!= null}">
+    <span th:text="${success}"></span>
+  </div>
 
     <!-- Footer -->
   <div th:insert = "~{user/template_user::footer}"></div>
@@ -131,6 +132,15 @@
   <!-- Bootstrap core JavaScript -->
     <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
     <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/vendor/toastr/build/toastr.min.js}"></script>
+
+  <script>
+  $(document).ready(function () {
+    if ($('#success-message').length > 0) {
+      toastr.success($('#success-message'));
+    }
+  });
+</script>
 
   </body>
 

@@ -29,4 +29,6 @@ public class LoginHandler extends SavedRequestAwareAuthenticationSuccessHandler 
         );
         response.sendRedirect(String.valueOf(redirectURL));
     }
+
+
 }

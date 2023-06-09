@@ -32,7 +32,7 @@
 
   <!-- Page Heading/Breadcrumbs -->
   <h1 class="mt-4 mb-3">
-    Spring eCommerce <small>Usuarios</small>
+
   </h1>
 
   <ol class="breadcrumb">
@@ -40,8 +40,19 @@
     <li class="breadcrumb-item active">Ver Usuarios</li>
   </ol>
 
-  <a class="btn btn-primary" th:href="@{/admin/users/create}" > Crear Usuario</a>
+
   <h2>Usuarios</h2>
+  <div th:classappend="'alert-' + (${clase != null} ? ${clase} : 'info')" th:if="${mensaje != null}">
+    <p th:text="${mensaje}" class="alert"></p>
+  </div>
+
+  <div class="mb-3">
+    <a class="btn btn-primary" th:href="@{/admin/users/create}" >Agregar</a>
+  </div>
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-12">
   <table class="table">
     <thead>
       <tr>
@@ -50,25 +61,50 @@
         <th scope="col">Cédula</th>
         <th scope="col">Email</th>
         <th scope="col">Teléfono</th>
-        <th scope="col">Editar</th>
-        <th scope="col">Eliminar</th>
-		<th scope="col">Órdenes</th>
+        <th scope="col">Estado</th>
+        <th scope="col" style="text-align: center;">Acciones</th>
       </tr>
     </thead>
     <tbody>
-      <tr th:each="user:${users}">
-        <td th:text="${user.firstName}"></td>
-        <td th:text="${user.lastName}"></td>
-        <td th:text="${user.personalId}"></td>
-        <td th:text="${user.email}"></td>
-        <td th:text="${user.cellphone}"></td>
-        <td><a  class="btn btn-warning" th:href="@{/admin/users/edit/{id} (id = ${user.id}) }">Editar</a> </td>
-        <td><a  class="btn btn-danger" th:href="@{/admin/users/delete/{id} (id = ${user.id}) }">Eliminar</a> </td>
-		
-        <td><a  class="btn btn-primary" th:href="@{/admin/orders/{id} (id = ${user.id}) }" >Ver</a> </td>
-      </tr>       
+    <tr th:each="user:${users}">
+      <td th:text="${user.firstName}"></td>
+      <td th:text="${user.lastName}"></td>
+      <td th:text="${user.personalId}"></td>
+      <td th:text="${user.email}"></td>
+      <td th:text="${user.cellphone}"></td>
+      <td th:text="${user.userStatus}"></td>
+      <td  style="text-align: center;">
+        <div class="btn-group btn-group-sm">
+          <a class="btn btn-warning" th:href="@{/admin/users/edit/{id} (id = ${user.id}) }">Editar</a>
+          <a class="btn btn-danger eliminar-registro" th:href="@{/admin/users/delete/{id}(id=${user.id})}" data-id="${user.id}">Baja</a>
+          <a class="btn btn-primary" th:href="@{/admin/orders/{id} (id = ${user.id}) }">Órdenes</a>
+        </div>
+      </td>
+    </tr>
     </tbody>
   </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <nav th:if="${totalPages != null}">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+        <a class="page-link" th:href="@{/admin/users/show(page=${currentPage - 1}, size=${size})}">Previo</a>
+      </li>
+      <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, totalPages-1)}"
+          th:classappend="${currentPage == pageNumber ? 'active' : ''}">
+        <a class="page-link" th:href="@{/admin/users/show(page=${pageNumber}, size=${size})}" th:text="${pageNumber+1}"></a>
+      </li>
+      <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+        <a class="page-link" th:href="@{/admin/users/show(page=${currentPage + 1}, size=${size})}">Siguiente</a>
+      </li>
+    </ul>
+  </nav>
+
+
 
 </div>
 <!-- /.container -->
@@ -86,13 +122,48 @@
 <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
   <!-- Toastr JavaScript -->
   <script th:src="@{/vendor/toastr/build/toastr.min.js}"></script>
+
+  <!-- Bootbox JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+
   <!-- Custom script for showing success message -->
   <script>
   $(document).ready(function() {
-    if ($('#success-message').length > 0) {
-      toastr.success($('#success-message').text);
-    }
+  // Obtén todos los enlaces con la clase "eliminar-registro"
+  var eliminarEnlaces = $('.eliminar-registro');
+
+  // Agrega un evento de clic a cada enlace
+  eliminarEnlaces.on('click', function(event) {
+    event.preventDefault();
+
+    var enlace = $(this);
+    var registroId = parseInt(enlace.attr('data-id'), 10);
+
+    // Muestra el cuadro de confirmación de Bootbox
+    bootbox.confirm({
+      message: "¿Estás seguro de que deseas dar de baja este usuario?",
+      buttons: {
+        confirm: {
+          label: 'Sí',
+          className: 'btn-danger'
+        },
+        cancel: {
+          label: 'No',
+          className: 'btn-secondary'
+        }
+      },
+      callback: function(result) {
+        // Si el usuario confirma la eliminación, redirige a la página de eliminación
+        if (result) {
+          // Actualiza el enlace para dirigirlo a la página de eliminación
+
+          window.location.href = '/admin/users/delete/' + registroId;
+        }
+      }
+    });
   });
+});
+
 </script>
 
 </body>

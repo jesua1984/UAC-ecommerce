@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Spring eCommerce</title>
+  <title>Ver inventario</title>
 
 
   <!-- Bootstrap core CSS -->
@@ -30,16 +30,25 @@
 
   <!-- Page Heading/Breadcrumbs -->
   <h1 class="mt-4 mb-3">
-    Spring eCommerce <small>Inventario</small>
   </h1>
 
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a th:href="@{/admin}">Home</a></li>
+    <li class="breadcrumb-item"><a th:href="@{/admin/products/show}">Ver Productos</a></li>
     <li class="breadcrumb-item active">Ver Inventario</li>
   </ol>
 
-  <a class="btn btn-primary" th:href="@{/admin/products/stock/create-unit-product/{id} (id = ${idproduct})}" > Añadir unidades</a>
   <h2>Inventario</h2>
+
+  <div th:classappend="'alert-' + (${clase != null} ? ${clase} : 'info')" th:if="${mensaje != null}">
+    <p th:text="${mensaje}" class="alert"></p>
+  </div>
+
+  <div class="mb-3">
+    <a class="btn btn-primary" th:href="@{/admin/products/stock/create-unit-product/{id} (id = ${idproduct})}" > Añadir unidades</a>
+  </div>
+
+
   <table class="table">
     <thead>
 		<th scope="col">Fecha Registro</th>

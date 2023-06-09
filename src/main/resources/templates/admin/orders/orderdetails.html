@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Spring eCommerce</title>
+  <title>Órdenes de compra General</title>
   <!-- Bootstrap core CSS -->
   <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
   <!-- Custom styles for this template -->
@@ -24,12 +24,19 @@
 <div class="container">
   <!-- Page Heading/Breadcrumbs -->
   <h1 class="mt-4 mb-3">
-    Spring eCommerce <small>Compras</small>
+
   </h1>
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a th:href="@{/admin}">Home</a></li>
-    <li class="breadcrumb-item active">Compras</li>
+    <li class="breadcrumb-item active">Órdenes de compra</li>
   </ol>
+
+  <h2>Órdenes de Compra</h2>
+
+  <div th:classappend="'alert-' + (${clase != null} ? ${clase} : 'info')" th:if="${mensaje != null}">
+    <p th:text="${mensaje}" class="alert"></p>
+  </div>
+
   <!-- Blog Post -->
   <div class="card mb-4">
     <div class="card-body">
@@ -38,27 +45,31 @@
           <table class="table">
             <thead>
             <tr>
+              <th scope="col">Nro. Orden</th>
               <th scope="col">Nombre</th>
               <th scope="col">Apellido</th>
               <th scope="col">Usuario</th>
               <th scope="col">Fecha de Compra</th>
               <th scope="col">Total</th>
               <th scope="col">Estado</th>
-              <th scope="col">Productos</th>
-              <th scope="col">Acciones</th>
+              <th scope="col" style="text-align: center;">Acciones</th>
+
             </tr>
             </thead>
             <tbody>
             <tr th:each="order : ${orders}">
+              <td th:text="${order.id}"></td>
               <td th:text="${order.user.firstName}">Nombre</td>
               <td th:text="${order.user.lastName}">Apellido</td>
               <td th:text="${order.user.username}">Usuario</td>
               <td th:text="${#temporals.format(order.dateCreated, 'dd-MM-yyyy')}">Fecha de Compra</td>
               <td th:text="${order.getTotalOrderPrice()}">Total</td>
               <td th:text="${order.orderStatus}">Estado</td>
-              <td><a class="btn btn-warning" th:href="'#orderModal-' + ${order.id}" data-toggle="modal">Ver</a></td>
-              <td>
-                <button class="btn btn-primary" data-toggle="modal" th:data-target="'#editModal-' + ${order.id}">Editar Estado</button>
+              <td  style="text-align: center;">
+                <div class="btn-group btn-group-sm">
+                    <a class="btn btn-primary" th:href="'#orderModal-' + ${order.id}" data-toggle="modal">Ver</a>
+                    <button class="btn btn-warning" data-toggle="modal" th:data-target="'#editModal-' + ${order.id}">Actualizar</button>
+                </div>
               </td>
             </tr>
             </tbody>
@@ -67,6 +78,21 @@
       </div>
     </div>
   </div>
+
+  <nav th:if="${totalPages != null}">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+        <a class="page-link" th:href="@{/admin/orders/all(page=${currentPage - 1}, size=${size})}">Previo</a>
+      </li>
+      <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, totalPages-1)}"
+          th:classappend="${currentPage == pageNumber ? 'active' : ''}">
+        <a class="page-link" th:href="@{/admin/orders/all(page=${pageNumber}, size=${size})}" th:text="${pageNumber+1}"></a>
+      </li>
+      <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+        <a class="page-link" th:href="@{/admin/orders/all(page=${currentPage + 1}, size=${size})}">Siguiente</a>
+      </li>
+    </ul>
+  </nav>
 </div>
 <!-- /.container -->
 
@@ -136,6 +162,9 @@
 <div id="success-message" th:if="${success}">
   <span th:text="${success}"></span>
 </div>
+
+<!-- Footer -->
+<div th:insert = "~{admin/template_admin::footer}"></div>
 
 <!-- Bootstrap core JavaScript -->
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>

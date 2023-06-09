@@ -2,6 +2,7 @@ package com.UAC.ecommerce.application.service;
 
 import com.UAC.ecommerce.application.repository.ProductRepository;
 import com.UAC.ecommerce.domain.Product;
+
 import com.UAC.ecommerce.domain.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;
@@ -18,17 +19,19 @@ public class ProductService {
     private final UploadFile uploadFile;
 
 
+
     public ProductService(ProductRepository productRepository, UploadFile uploadFile) {
         this.productRepository = productRepository;
         this.uploadFile = uploadFile;
+
     }
 
     public Iterable<Product> getProducts(){
         return productRepository.getProducts();
     }
 
-    public Iterable<Product> getProductsByUser(User user){
-        return productRepository.getProductsByUser(user);
+    public Page<Product> getProductsByUser(User user, Pageable pageable){
+        return productRepository.getProductsByUser(user, pageable);
     }
 
     public Product getProductById(Long id){
@@ -44,6 +47,7 @@ public class ProductService {
             product.setUser(user);
             product.setImage(uploadFile.upload(multipartFile));
             return productRepository.saveProduct(product);
+
         } else{
             Product productDB=productRepository.getProductById(product.getId());
             //sino se carga la imagen coge la que se guardó al registro
@@ -63,7 +67,6 @@ public class ProductService {
             product.setDateUpdated(LocalDateTime.now());
             return productRepository.saveProduct(product);
         }
-
     }
 
     public void deleteProductById(Long id){

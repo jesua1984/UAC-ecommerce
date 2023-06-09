@@ -8,6 +8,7 @@ import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,13 +41,15 @@ public class StockController {
     }
 
     @PostMapping("/save-unit-product")
-    public String save(Stock stock, @RequestParam("idproduct") Long idproduct){
+    public String save(Stock stock, @RequestParam("idproduct") Long idproduct, RedirectAttributes redirectAttributes){
         stock.setDateCreated(LocalDateTime.now());
         stock.setDescription(("inventario"));
         Product product = new Product();
         product.setId(idproduct);
         stock.setProduct(product);
         stockService.saveStock(validateStock.calculateBalance(stock));
+        redirectAttributes.addFlashAttribute("mensaje", "Acción realizada con éxito")
+                .addFlashAttribute("clase", "success");
 
         return "redirect:/admin/products/show";
     }

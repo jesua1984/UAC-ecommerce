@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Spring eCommerce</title>
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+  <!-- Toastr CSS -->
+  <link th:href="@{/vendor/toastr/build/toastr.min.css}" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<div th:insert = "~{user/template_user::header}" th:if="${id==null}"></div>
+
+<div th:replace = "~{user/template_user::userlogged}" th:unless="${id==null}"></div>
+<!-- Page Content -->
+<div class="container">
+
+  <!-- Page Heading/Breadcrumbs -->
+  <h1 class="mt-4 mb-3">
+
+  </h1>
+
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
+    <li class="breadcrumb-item active">Mi Cuenta</li>
+  </ol>
+
+  <h2>Mi Cuenta</h2>
+
+  <!-- Mensaje de alerta -->
+  <div th:if="${mensaje}" class="alert" th:classappend="'alert-' + ${clase}">
+    <p th:text="${mensaje}"></p>
+  </div>
+
+  <form class="form-horizontal" th:action="@{/user/save-user}" method="post">
+    <input type="hidden" name="id" th:value="${user.id}">
+    <input type="hidden" name="dateCreated" th:value="${user.dateCreated}">
+    <input type="hidden" name="userType" th:value="${user.userType}">
+    <input type="hidden" name="username" th:value="${user.username}">
+    <input type="hidden" name="password" th:value="${user.password}">
+    <input type="hidden" name="userStatus" th:value="${user.userStatus}">
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label class="control-label" for="firstName">Nombre:</label>
+        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Ingrese el nombre" required autocomplete="off"
+               th:value="${user.firstName}">
+      </div>
+      <div class="form-group col-md-6">
+        <label class="control-label" for="lastName">Apellido:</label>
+        <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Ingrese el apellido" required autocomplete="off"
+               th:value="${user.lastName}">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label class="control-label" for="personalId">Cédula:</label>
+        <input type="text" class="form-control" id="personalId" name="personalId" placeholder="Ingrese la cédula" required autocomplete="off"
+               th:value="${user.personalId}">
+      </div>
+      <div class="form-group col-md-6">
+        <label class="control-label" for="email">Correo electrónico:</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese el correo electrónico" required autocomplete="off"
+               th:value="${user.email}">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label class="control-label" for="address">Dirección:</label>
+        <input type="text" class="form-control" id="address" name="address" placeholder="Ingrese la dirección" required autocomplete="off"
+               th:value="${user.address}">
+      </div>
+      <div class="form-group col-md-6">
+        <label class="control-label" for="cellphone">Teléfono:</label>
+        <input type="text" class="form-control" id="cellphone" name="cellphone" placeholder="Ingrese el teléfono" required autocomplete="off"
+               th:value="${user.cellphone}">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+
+  </form>
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<div th:insert="~{user/template_user::footer}"></div>
+
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- Toastr JavaScript -->
+<script th:src="@{/vendor/toastr/build/toastr.min.js}"></script>
+
+
+
+</body>
+
+</html>

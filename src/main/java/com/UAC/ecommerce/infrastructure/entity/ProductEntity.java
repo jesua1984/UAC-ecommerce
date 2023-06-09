@@ -30,6 +30,18 @@ public class ProductEntity {
     @JoinColumn(name = "user_entity_id")
     private UserEntity userEntity;
 
+    @ManyToOne
+    @JoinColumn(name = "category_entity_id")
+    private  CategoryEntity categoryEntity;
+
+    public CategoryEntity getCategoryEntity(){
+        return categoryEntity;
+    }
+
+    public void setCategoryEntity(CategoryEntity categoryEntity){
+        this.categoryEntity = categoryEntity;
+    }
+
     public UserEntity getUserEntity() {
         return userEntity;
     }

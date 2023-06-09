@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Ver Productos</title>
+  <title>Ver Categorías</title>
 
 
   <!-- Bootstrap core CSS -->
@@ -16,13 +16,6 @@
 
   <!-- Custom styles for this template -->
   <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
-
-  <style>
-
-
-  </style>
-
-
 
 </head>
 
@@ -36,71 +29,71 @@
 
 
   <!-- Page Heading/Breadcrumbs -->
-  <h2 class="mt-4 mb-3">
+  <h1 class="mt-4 mb-3">
 
-  </h2>
+  </h1>
 
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a th:href="@{/admin}">Home</a></li>
-    <li class="breadcrumb-item active">Ver Productos</li>
+    <li class="breadcrumb-item active">Ver Categorías</li>
   </ol>
-  <h2>Productos</h2>
+
+  <h2>Categorías</h2>
 
   <div th:classappend="'alert-' + (${clase != null} ? ${clase} : 'info')" th:if="${mensaje != null}">
     <p th:text="${mensaje}" class="alert"></p>
   </div>
 
   <div class="mb-3">
-    <a class="btn btn-primary" th:href="@{/admin/products/create}">Agregar</a>
+    <a class="btn btn-primary" th:href="@{/admin/categories/create}" >Agregar</a>
   </div>
 
+
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-12">
   <table class="table">
     <thead>
       <tr>
         <th scope="col">Nombre</th>
         <th scope="col">Descripción</th>
-        <th scope="col">Precio</th>
-        <th scope="col">Categoría</th>
         <th scope="col" style="text-align: center;">Acciones</th>
       </tr>
     </thead>
     <tbody>
-      <tr th:each="product:${products}">
-        <td th:text="${product.name}"></td>
-        <td th:text="${product.description}"></td>
-        <td th:text="${product.price}"></td>
-        <td th:text="${product.category.name}"></td>
+      <tr th:each="category:${categories}">
+        <td th:text="${category.name}"></td>
+        <td th:text="${category.description}"></td>
         <td  style="text-align: center;">
           <div class="btn-group btn-group-sm">
-            <a  class="btn btn-warning" th:href="@{/admin/products/edit/{id} (id = ${product.id}) }">Editar</a>
-            <a  class="btn btn-danger" th:href="@{/admin/products/delete/{id} (id = ${product.id}) }">Eliminar</a>
-            <a  class="btn btn-primary" th:href="@{/admin/products/stock/{id} (id = ${product.id}) }">Inventario</a>
+            <a  class="btn btn-warning" th:href="@{/admin/categories/edit/{id} (id = ${category.id}) }">Editar</a>
+            <a  class="btn btn-danger" th:href="@{/admin/categories/delete/{id} (id = ${category.id}) }">Eliminar</a>
           </div>
-
         </td>
       </tr>       
     </tbody>
   </table>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <nav th:if="${totalPages != null}">
     <ul class="pagination justify-content-center">
       <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
-        <a class="page-link" th:href="@{/admin/products/show(page=${currentPage - 1}, size=${size})}">Previo</a>
+        <a class="page-link" th:href="@{/admin/categories/show(page=${currentPage - 1}, size=${size})}">Previo</a>
       </li>
       <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, totalPages-1)}"
           th:classappend="${currentPage == pageNumber ? 'active' : ''}">
-        <a class="page-link" th:href="@{/admin/products/show(page=${pageNumber}, size=${size})}" th:text="${pageNumber+1}"></a>
+        <a class="page-link" th:href="@{/admin/categories/show(page=${pageNumber}, size=${size})}" th:text="${pageNumber+1}"></a>
       </li>
       <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
-        <a class="page-link" th:href="@{/admin/products/show(page=${currentPage + 1}, size=${size})}">Siguiente</a>
+        <a class="page-link" th:href="@{/admin/categories/show(page=${currentPage + 1}, size=${size})}">Siguiente</a>
       </li>
     </ul>
   </nav>
-
-  <!-- Success Message -->
-  <div id="success-message" th:if="${success}">
-    <span th:text="${success}"></span>
-  </div>
 
 </div>
 <!-- /.container -->

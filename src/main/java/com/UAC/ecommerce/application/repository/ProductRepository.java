@@ -10,7 +10,7 @@ import java.util.List;
 public interface ProductRepository {
     Iterable<Product> getProducts();
 
-    Iterable<Product> getProductsByUser(User user);
+    Page<Product> getProductsByUser(User user, Pageable pageable);
 
     Product getProductById(Long id);
 

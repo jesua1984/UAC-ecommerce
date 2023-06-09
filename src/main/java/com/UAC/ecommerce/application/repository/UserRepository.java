@@ -1,20 +1,24 @@
 package com.UAC.ecommerce.application.repository;
 
-import com.UAC.ecommerce.domain.Product;
 import com.UAC.ecommerce.domain.User;
 import com.UAC.ecommerce.domain.UserType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.Optional;
 
 public interface UserRepository {
-    public User createUser(User user);
+     User createUser(User user);
 
-    public User findByEmail(String email);
-    public User findById(Long id);
+     User findByEmail(String email);
+
+     User findById(Long id);
 
     Iterable<User> getUsers();
 
     User getUserById(Long id);
 
-    Iterable<User> findByUserType(UserType userType);
+    Page<User> findByUserType(UserType userType, Pageable pageable);
 
     User saveUser(User user);
 

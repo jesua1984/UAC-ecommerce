@@ -1,15 +1,14 @@
 package com.UAC.ecommerce.infrastructure.adapter;
 
-import com.UAC.ecommerce.infrastructure.entity.OrderEntity;
-import com.UAC.ecommerce.infrastructure.entity.ProductEntity;
-import com.UAC.ecommerce.infrastructure.entity.StockEntity;
-import com.UAC.ecommerce.infrastructure.entity.UserEntity;
+import com.UAC.ecommerce.infrastructure.entity.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-import java.util.Optional;
-
 public interface OrderCrudRepository extends CrudRepository<OrderEntity , Long> {
-    public Iterable<OrderEntity> findByUser(UserEntity userEntity);
+    public Page<OrderEntity> findByUser(UserEntity userEntity, Pageable pageable);
+
+    Page<OrderEntity> findAll(Pageable pageable);
 
 }
+

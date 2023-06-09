@@ -4,6 +4,11 @@ import com.UAC.ecommerce.application.repository.UserRepository;
 import com.UAC.ecommerce.domain.Product;
 import com.UAC.ecommerce.domain.User;
 import com.UAC.ecommerce.domain.UserType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
+import java.util.Optional;
 
 public class UserService {
     private final UserRepository userRepository;
@@ -21,6 +26,7 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+
     public User findById(Long id) {
         return userRepository.findById(id);
     }
@@ -37,11 +43,12 @@ public class UserService {
         userRepository.deleteUserById(id);
     }
 
-    public Iterable<User> getUsersByType(UserType userType) {
-        return userRepository.findByUserType(userType);
+    public Page<User> getUsersByType(UserType userType, Pageable pageable) {
+        return userRepository.findByUserType(userType, pageable);
     }
 
     public User saveUser(User user){
         return userRepository.saveUser(user);
     }
+
 }

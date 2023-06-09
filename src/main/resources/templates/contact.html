@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Formulario de Contacto</title>
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{css/heroic-features.css}" rel="stylesheet">
+
+  <!-- Toastr CSS -->
+  <link th:href="@{/vendor/toastr/build/toastr.min.css}" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .contact-info {
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 25px;
+    }
+
+    .contact-info h4 {
+      margin-bottom: 10px;
+    }
+
+    .contact-info p {
+      margin-bottom: 5px;
+    }
+
+    .contact-form {
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 25px;
+    }
+
+    .contact-form .form-control {
+      border-radius: 0;
+    }
+
+    .contact-form .btn {
+      border-radius: 0;
+    }
+
+    .bg-light-blue {
+      background-color: #00adef; /* Reemplaza el valor de color con el tono de azul más claro que desees */
+    }
+
+  </style>
+
+  <style type="text/css">
+    .jumbotron {
+      position: relative;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/pescados1.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      height: 350px;
+      margin-bottom: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container-fluid {
+      height: 100%;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+<!-- Navigation -->
+<div th:insert="~{user/template_user::header}" th:if="${id == null}"></div>
+<div th:insert="~{user/template_user::userlogged}" th:unless="${id == null}"></div>
+
+<!-- Jumbotron Header -->
+<div class="container-fluid">
+  <header class="jumbotron my-4">
+    <h1 class="display-3">CONTACTO</h1>
+    <p class="lead">Tu tienda de productos del mar en Línea</p>
+  </header>
+</div>
+
+<div class="container py-5">
+  <h2 class="mt-4 mb-3"></h2>
+  <div class="row">
+
+    <div class="col-md-6">
+      <div class="contact-info">
+        <table class="table">
+          <tbody>
+          <tr>
+            <td>
+              <h5>LLÁMANOS</h5>
+              <p>Linea de Whatsapp +57 312 3593484</p>
+              <p>Teléfono: (605) 6351757</p>
+
+            </td>
+            <td>
+              <h5>EMAIL</h5>
+              <p>pescaderiafidyfer@gmail.com</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h5>HORARIO</h5>
+              <p>Lunes a Sabados 7 am – 5 pm</p>
+            </td>
+            <td>
+              <h5>DIRECCIÓN</h5>
+              <p>Carrera 42 # 7-39</p>
+              <p>Barranquilla - Atlántico</p>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <div class="col-md-6">
+      <div class="contact-form">
+        <div class="card bg-light-blue text-white">
+          <div class="card-body">
+            <h2 class="text-center mb-4">Formulario de Contacto</h2>
+            <form action="#" method="post">
+              <div class="form-group">
+                <label for="name">Nombre:</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Ingrese su nombre" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" class="form-control" id="email" name="email"
+                       placeholder="Ingrese su correo electrónico" required>
+              </div>
+              <div class="form-group">
+                <label for="Teléfono">Teléfono:</label>
+                <input type="text" class="form-control" id="Teléfono" name="Teléfono"
+                       placeholder="Ingrese su teléfono" required>
+              </div>
+              <div class="form-group">
+                <label for="message">Mensaje:</label>
+                <textarea class="form-control" id="message" name="message" rows="5" placeholder="Escriba su mensaje"
+                          required></textarea>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div th:insert="~{user/template_user::footer}"></div>
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/vendor/toastr/build/toastr.min.js}"></script>
+</body>
+
+</html>
+

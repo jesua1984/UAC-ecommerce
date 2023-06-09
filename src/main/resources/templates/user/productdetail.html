@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Spring eCommerce</title>
+  <title>Detalle del producto</title>
 
 
   <!-- Bootstrap core CSS -->
@@ -22,7 +22,7 @@
 <body>
 
 <!-- Navigation -->
-<div th:insert = "~{user/template_user::header}" th:if="${id==null}"></div>
+<div th:insert = "~{user/template_user::header}" th:if="${id!=null}"></div>
 
 <div th:insert = "~{user/template_user::userlogged}" th:unless="${id==null}"></div>
 
@@ -32,13 +32,15 @@
 
       <!-- Page Heading/Breadcrumbs -->
       <h1 class="mt-4 mb-3">
-        Spring eCommerce <small>Producto</small>
+
       </h1>
 
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
         <li class="breadcrumb-item active">Producto</li>
       </ol>
+
+      <h2>Detalle del Producto</h2>
 
       <!-- Blog Post -->
       <div class="card mb-4">
@@ -66,12 +68,15 @@
                   </li>
                   <li class="list-group-item"><h6>
                     Cantidad: <input type="number" id="quantity" name="quantity" autocomplete="off"
-                    min="1" max="5" value="1">
+                    min="1" th:max="${stock}" value="1">
                   </h6></li>
                 </ul>
 
 
-                <button type="submit"  class="btn btn-dark">Añadir al carrito </button>
+                <button type="submit"  class="btn btn-dark" th:disabled="${stock <= 0 }">
+                  <span th:if="${stock > 0}">Añadir al carrito</span>
+                  <span th:unless="${stock > 0}">Sin Stock</span>
+                </button>
 
               </form>
             </div>
@@ -90,6 +95,8 @@
   <!-- Bootstrap core JavaScript -->
   <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
   <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+
 
   </body>
 

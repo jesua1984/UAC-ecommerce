@@ -6,6 +6,7 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.springframework.data.domain.Page;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
@@ -31,4 +32,9 @@ public interface UserMapper {
 
     @InheritInverseConfiguration
     UserEntity toUserEntity(User user);
+
+     default Page<User> toUserPage(Page<UserEntity> userEntityPage) {
+        return userEntityPage.map(this::toUser);
+    }
+
 }

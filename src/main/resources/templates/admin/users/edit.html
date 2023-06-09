@@ -35,6 +35,7 @@
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a th:href="@{/admin}">Home</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/admin/users/show}">Ver Usuarios</a></li>
         <li class="breadcrumb-item active">Actualizar Usuario</li>
     </ol>
 
@@ -46,6 +47,9 @@
         <input type="hidden" name="username" th:value="${user.username}">
         <input type="hidden" name="password" th:value="${user.password}">
         <input type="hidden" name="email" th:value="${user.email}">
+        <input type="hidden" name="userStatus" th:value="${user.userStatus}">
+
+
 
         <div class="form-group">
             <label class="control-label col-sm-2" for="firstName">Nombre:</label>

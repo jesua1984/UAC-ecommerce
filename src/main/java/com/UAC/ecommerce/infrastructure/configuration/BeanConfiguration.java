@@ -17,6 +17,11 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public CategoryService categoryService(CategoryRepository categoryRepository){
+        return new CategoryService(categoryRepository);
+    }
+
+    @Bean
     public UploadFile uploadFile(){
         return new UploadFile();
     }

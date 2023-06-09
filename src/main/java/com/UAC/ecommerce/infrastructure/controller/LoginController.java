@@ -28,7 +28,7 @@ public class LoginController {
     }
 
     @GetMapping("/access")
-    public String access(RedirectAttributes attributes, HttpSession httpSession){
+    public String access(RedirectAttributes attributes,RedirectAttributes redirectAttributes, HttpSession httpSession){
         User user = loginService.getUser(Long.valueOf(httpSession.getAttribute("iduser").toString())) ;
         attributes.addFlashAttribute("id", httpSession.getAttribute("iduser").toString());
         if (loginService.existUser(user.getEmail())){
@@ -38,6 +38,8 @@ public class LoginController {
                 return "redirect:/home";
             }
         }
-        return "redirect:/home";
+        redirectAttributes.addFlashAttribute("mensaje", "Usuario y/o contraseña incorrecta");
+        redirectAttributes.addFlashAttribute("clase", "danger");
+        return "redirect:/login";
     }
 }

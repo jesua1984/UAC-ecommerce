@@ -10,6 +10,9 @@ import com.UAC.ecommerce.domain.Product;
 import com.UAC.ecommerce.domain.User;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,25 +46,30 @@ public class AdminController {
     public String home(Model model){
         User user = new User();
         user.setId(1L);
-        Iterable<Product> products = productService.getProductsByUser(user);
-        model.addAttribute("products",products);
+        //Iterable<Product> products = productService.getProductsByUser(user);
+        //model.addAttribute("products",products);
         return "/admin/home";
     }
 
     @GetMapping("/orders/{id}")
-    public String getUserOrders(@PathVariable Long id, Model model) {
+    public String getUserOrders(@PathVariable Long id, Model model, @RequestParam(defaultValue = "0") Integer page,
+                                @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
         List<Order> newListOrder = new ArrayList<>();
         User user = userService.findById(id);
-        Iterable<Order> orders = orderService.getOrdersByUser(user);
-        for (Order order: orders){
-            newListOrder.add(getOrdersProducts(order));
-            log.info("contenido orden: {}",order.getOrderProducts());
-
+        Page<Order> ordersPage = orderService.getOrdersByUser(user,pageable);
+        List<Order> orders = ordersPage.getContent();
+        for (Order order : orders) {
+            Order orderWithProducts = getOrdersProducts(order);
+            newListOrder.add(orderWithProducts);
         }
         model.addAttribute("id",Long.valueOf(id).toString());
         model.addAttribute("orders", newListOrder);
+        model.addAttribute("currentPage", ordersPage.getNumber());
+        model.addAttribute("pageSize", ordersPage.getSize());
+        model.addAttribute("totalPages", ordersPage.getTotalPages());
 
-        return "admin/orders/shoppinglist";
+        return "admin/users/shoppinglist";
     }
 
     private Order getOrdersProducts(Order order){
@@ -71,34 +79,41 @@ public class AdminController {
     }
 
     @GetMapping("/orders/all")
-    public String getAllUserOrders(Model model) {
+    public String getAllUserOrders(@RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "10") int size, Model model) {
+        Pageable pageable = PageRequest.of(page, size);
         List<Order> newListOrder = new ArrayList<>();
-        Iterable<Order> orders = orderService.getOrders();
-        for (Order order: orders){
+        Page<Order> ordersPage = orderService.getOrdersPage(pageable);
+        for (Order order: ordersPage){
             newListOrder.add(getOrdersProducts(order));
         }
-        model.addAttribute("orders", newListOrder);
+        //model.addAttribute("orders", newListOrder);
+
+        model.addAttribute("orders", ordersPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", ordersPage.getTotalPages());
 
         return "admin/orders/orderdetails";
     }
 
     @PostMapping("/orders/{orderId}/change-status")
-    public String changeOrderStatus(@PathVariable Long orderId, @RequestParam("orderStatus") String status, RedirectAttributes attributes) {
+    public String changeOrderStatus(@PathVariable Long orderId, @RequestParam("orderStatus") String status, RedirectAttributes redirectAttributes) {
         // Obtener la orden por su ID
         Order order = orderService.getOrderById(orderId);
 
         if (order == null) {
             // La orden no existe, mostrar mensaje de error o redirigir a una página de error
-            attributes.addFlashAttribute("message", "La orden no existe.");
+            redirectAttributes.addFlashAttribute("mensaje", "La orden no existe")
+                    .addFlashAttribute("clase", "success");
             return "redirect:/admin/orders/all";
         }
 
         // Actualizar el estado de la orden
         order.setOrderStatus(status);
         orderService.updateOrder(order);
-
+        redirectAttributes.addFlashAttribute("mensaje", "Acción realizada con éxito")
+                .addFlashAttribute("clase", "success");
         // Redirigir a la página de detalles de la orden
-        attributes.addFlashAttribute("success", "Estado de orden cambiado correctamente.");
         return "redirect:/admin/orders/all";
     }
 }

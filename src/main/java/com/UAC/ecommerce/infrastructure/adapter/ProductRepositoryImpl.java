@@ -38,8 +38,8 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Iterable<Product> getProductsByUser(User user) {
-        return productMapper.toProduct(productCrudRepository.findByUserEntity(userMapper.toUserEntity(user)));
+    public Page<Product> getProductsByUser(User user,  Pageable pageable) {
+        return productMapper.toProductPage(productCrudRepository.findByUserEntity(userMapper.toUserEntity(user),pageable));
     }
 
     @Override

@@ -6,9 +6,10 @@ import com.UAC.ecommerce.domain.User;
 import com.UAC.ecommerce.infrastructure.entity.OrderEntity;
 import com.UAC.ecommerce.infrastructure.mapper.OrderMapper;
 import com.UAC.ecommerce.infrastructure.mapper.UserMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -35,8 +36,8 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public Iterable<Order> getOrdersByUser(User user) {
-        return orderMapper.toOrders(orderCrudRepository.findByUser(userMapper.toUserEntity(user)));
+    public Page<Order> getOrdersByUser(User user, Pageable pageable) {
+        return orderMapper.toOrdersPage(orderCrudRepository.findByUser(userMapper.toUserEntity(user),pageable));
     }
 
     @Override
@@ -50,6 +51,11 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public void save(Order order) {
         orderCrudRepository.save(orderMapper.toOrderEntity(order));
+    }
+
+    @Override
+    public Page<Order> getOrdersPage(Pageable pageable) {
+        return orderMapper.toOrdersPage(orderCrudRepository.findAll(pageable));
     }
 
 }

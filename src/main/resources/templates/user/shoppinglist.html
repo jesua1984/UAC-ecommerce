@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Spring eCommerce</title>
+  <title>Lista de Órdenes</title>
 
 
   <!-- Bootstrap core CSS -->
@@ -32,13 +32,15 @@
 
       <!-- Page Heading/Breadcrumbs -->
       <h1 class="mt-4 mb-3">
-        Spring eCommerce <small>Compras</small>
+
       </h1>
 
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
         <li class="breadcrumb-item active">Compras</li>
       </ol>
+
+      <h2>Lista de Compras Realizadas</h2>
 
       <!-- Blog Post -->
       <div class="card mb-4">
@@ -48,9 +50,11 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">Id</th>
+                  <th scope="col">Nro. Orden</th>
                   <th scope="col">Fecha de Compra</th>
                   <th scope="col">Valor</th>
+                  <th scope="col">Estado de la orden</th>
+                  <th scope="col">Detalles</th>
                 </tr>
               </thead>
               <tbody th:each="order:${orders}">
@@ -58,6 +62,8 @@
                   <td th:text="${order.id}">4555454</td>
                   <td th:text="${#temporals.format(order.dateCreated, 'dd-MM-yyyy')}">Fecha de Compra</td>
                   <td th:text="${order.getTotalOrderPrice()}">Total</td>
+                  <td th:text="${order.orderStatus}">estado</td>
+                  <td><a class="btn btn-primary" th:href="@{#}" data-toggle="modal" th:data-target="'#orderModal-' + ${order.id}">Ver</a></td>
                 </tr>
               </tbody>
             </table>
@@ -66,10 +72,58 @@
       </div>
     </div>
   </div>
+
+  <nav th:if="${totalPages != null}">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+        <a class="page-link" th:href="@{/user/cart/shopping(page=${currentPage - 1}, size=${size})}">Previo</a>
+      </li>
+      <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, totalPages-1)}">
+        <a class="page-link" th:href="@{/user/cart/shopping(page=${pageNumber}, size=${size})}" th:text="${pageNumber+1}"></a>
+      </li>
+      <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+        <a class="page-link" th:href="@{/user/cart/shopping(page=${currentPage + 1}, size=${size})}">Siguiente</a>
+      </li>
+    </ul>
+  </nav>
   <!-- /.container -->
 
   <!-- Footer -->
   <div th:insert = "~{user/template_user::footer}"></div>
+
+  <!-- Order Modals -->
+  <div th:each="order : ${orders}">
+    <div class="modal fade" th:id="'orderModal-' + ${order.id}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Contenido del modal -->
+          <div class="modal-body">
+            <h4>Productos de la orden</h4>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="orderProduct : ${order.orderProducts}">
+                <td th:text="${orderProduct.product.name}">Nombre</td>
+                <td th:text="${orderProduct.quantity}">Cantidad</td>
+                <td th:text="${orderProduct.product.price}">Precio</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Footer del modal -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   <!-- Bootstrap core JavaScript -->
