@@ -69,5 +69,10 @@ public class ProductRepositoryImpl implements ProductRepository {
         return (List<Product>) productMapper.toProduct(productCrudRepository.findByNameContainingIgnoreCase(keyword));
     }
 
+    @Override
+    public List<Product> findByCategoryContainingIgnoreCase(String category) {
+        return (List<Product>) productMapper.toProduct(productCrudRepository.findByCategoryContainingIgnoreCase(category));
+    }
+
 
 }

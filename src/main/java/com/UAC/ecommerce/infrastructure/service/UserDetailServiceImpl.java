@@ -3,6 +3,7 @@ package com.UAC.ecommerce.infrastructure.service;
 import com.UAC.ecommerce.application.service.LoginService;
 import com.UAC.ecommerce.domain.User;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class UserDetailServiceImpl implements UserDetailsService {
     private final LoginService loginService;
     private final Long USER_NOT_FOUND = null;
@@ -29,6 +31,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
             httpSession.setAttribute("iduser", user.getId());
             return org.springframework.security.core.userdetails.User.builder().username(user.getUsername()).password(user.getPassword()).roles(user.getUserType().name()).build();
         }else{
+
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
 

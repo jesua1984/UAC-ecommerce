@@ -51,12 +51,36 @@ public class HomeController {
     }
 
     @GetMapping("/contact")
-    public String contact(){
+    public String contact(Model model,HttpSession httpSession){
+        try {
+            model.addAttribute("id", httpSession.getAttribute("iduser").toString());
+        } catch (Exception e) {
+            // Manejar excepción
+        }
+
         return "contact";
     }
 
+    @GetMapping("/index")
+    public String index(Model model,HttpSession httpSession){
+        try {
+            model.addAttribute("id", httpSession.getAttribute("iduser").toString());
+        } catch (Exception e) {
+            // Manejar excepción
+        }
+
+
+        return "index";
+    }
+
     @GetMapping("/us")
-    public String us(){
+    public String us(Model model,HttpSession httpSession){
+        try {
+            model.addAttribute("id", httpSession.getAttribute("iduser").toString());
+        } catch (Exception e) {
+            // Manejar excepción
+        }
+
         return "us";
     }
 
@@ -89,7 +113,9 @@ public class HomeController {
     @PostMapping("/search")
     public String searchProducts(@RequestParam("keyword") String keyword, Model model) {
 
-        List<Product> products = productService.findProductsByName(keyword);
+         List<Product> products = productService.findProductsByName(keyword);
+
+        //List<Product> products = productService.findProductsByCategory(keyword);
 
         model.addAttribute("products", products);
         model.addAttribute("currentPage", null);  // Reiniciar a la primera página
@@ -97,7 +123,6 @@ public class HomeController {
         model.addAttribute("totalItems", products.size());   // Reiniciar el número total de elementos
         return "home";
     }
-
 
 
 }

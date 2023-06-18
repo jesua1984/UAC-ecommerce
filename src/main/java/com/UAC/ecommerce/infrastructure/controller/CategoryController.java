@@ -60,6 +60,8 @@ public class CategoryController {
     public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes){
         try{
             categoryService.deleteCategoryById(id);
+            redirectAttributes.addFlashAttribute("mensaje", "Acción realizada con éxito")
+                    .addFlashAttribute("clase", "success");
             return "redirect:/admin/categories/show";
 
         }catch (Exception e){

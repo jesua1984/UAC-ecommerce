@@ -45,7 +45,7 @@ public class UserController {
     }
     @GetMapping("/show")
     public String showUser(@RequestParam(defaultValue = "0") int page,
-                           @RequestParam(defaultValue = "2") int size,
+                           @RequestParam(defaultValue = "10") int size,
                            Model model) {
         Pageable pageable = PageRequest.of(page, size);
         Page<User> userPage = userService.getUsersByType(UserType.USER, pageable);
@@ -78,21 +78,23 @@ public class UserController {
 
 
     @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable Long id, RedirectAttributes attributes ){
-
+    public String deleteUser(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             User user = userService.getUserById(id);
-            user.setUserStatus("INACTIVO");
-            userService.saveUser(user);
-            //userService.deleteUserById(id);
-            attributes.addFlashAttribute("success", "Usuario dado de baja correctamente");
-            return "redirect:/admin/users/show";
+            if (user.getUserStatus().equals("INACTIVO")){
+                redirectAttributes.addFlashAttribute("mensaje", "El usuario ya se encuentra Inactivo")
+                        .addFlashAttribute("clase", "danger");
 
+            } else {
+                user.setUserStatus("INACTIVO");
+                userService.saveUser(user);
+                redirectAttributes.addFlashAttribute("mensaje", "Usuario Dado de baja correctamente")
+                        .addFlashAttribute("clase", "success");
+            }
         } catch (Exception e) {
-
-            attributes.addFlashAttribute("success", "Imposible dar de baja al usuario");
-            return "redirect:/admin/users/show";
-
+            redirectAttributes.addFlashAttribute("mensaje", "Imposible dar de baja al usuario")
+                    .addFlashAttribute("clase", "danger");
         }
+        return "redirect:/admin/users/show";
     }
 }

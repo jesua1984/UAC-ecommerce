@@ -2,10 +2,14 @@ package com.UAC.ecommerce.infrastructure.adapter;
 
 import com.UAC.ecommerce.application.repository.CategoryRepository;
 import com.UAC.ecommerce.domain.Category;
+import com.UAC.ecommerce.domain.Product;
+import com.UAC.ecommerce.infrastructure.entity.CategoryEntity;
 import com.UAC.ecommerce.infrastructure.mapper.CategoryMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class CategoryRepositoryImpl implements CategoryRepository {

@@ -23,4 +23,6 @@ public interface ProductRepository {
 
     List<Product> findByNameContainingIgnoreCase(String keyword);
 
+    List<Product> findByCategoryContainingIgnoreCase(String category);
+
 }

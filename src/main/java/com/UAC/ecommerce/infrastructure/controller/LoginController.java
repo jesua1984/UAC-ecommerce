@@ -6,9 +6,11 @@ import com.UAC.ecommerce.infrastructure.dto.UserDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -23,7 +25,10 @@ public class LoginController {
     }
 
     @GetMapping
-    public String login(){
+    public String login(@RequestParam(value = "error", required = false) String error, Model model) {
+        if (error != null) {
+            model.addAttribute("errorMessage", "Usuario y/o contraseña incorrecta");
+        }
         return "login";
     }
 
@@ -31,15 +36,13 @@ public class LoginController {
     public String access(RedirectAttributes attributes,RedirectAttributes redirectAttributes, HttpSession httpSession){
         User user = loginService.getUser(Long.valueOf(httpSession.getAttribute("iduser").toString())) ;
         attributes.addFlashAttribute("id", httpSession.getAttribute("iduser").toString());
-        if (loginService.existUser(user.getEmail())){
-            if(loginService.getUserType(user.getEmail()).name().equals("ADMIN")){
-                return "redirect:/admin";
-            }else{
-                return "redirect:/home";
+            if (loginService.existUser(user.getEmail())){
+                if(loginService.getUserType(user.getEmail()).name().equals("ADMIN")){
+                    return "redirect:/admin";
+                }else{
+                    return "redirect:/home";
+                }
             }
-        }
-        redirectAttributes.addFlashAttribute("mensaje", "Usuario y/o contraseña incorrecta");
-        redirectAttributes.addFlashAttribute("clase", "danger");
-        return "redirect:/login";
+                return "redirect:/home";
     }
 }

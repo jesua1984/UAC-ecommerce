@@ -2,38 +2,52 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>Spring eCommerce</title>
-
-
     <!-- Bootstrap core CSS -->
     <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+    <style>
+        .error {
+            color: red;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .form-group input[type="password"],
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"] {
+            width: 100%;
+        }
+        .form-group .form-check-label {
+            margin-left: 5px;
+        }
+        .btn-success {
+            margin-top: 10px;
+        }
+        .valid {
+  color: green;
+}
 
+.invalid {
+  color: red;
+}
+
+    </style>
 </head>
-<style>
-    .error {
-        color: red;
-    }
-</style>
 
 <body>
-
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #00adef;">
     <div class="container">
-
         <a th:href="@{/home}" class="navbar-brand">
             <img th:src="@{/images/logo.png}" width="60" height="60" alt="Logo">
         </a>
-
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -41,41 +55,28 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                    <a class="nav-link text-white font-weight-bold" th:href="@{/home}">Home</a>
+                    <a class="nav-link text-white font-weight-bold" th:href="@{/home/index}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white font-weight-bold" th:href="@{/nosotros}">Nosotros</a>
+                    <a class="nav-link text-white font-weight-bold" th:href="@{/home/us}">Nosotros</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white font-weight-bold" th:href="@{/tienda}">Tienda Virtual</a>
+                    <a class="nav-link text-white font-weight-bold" th:href="@{/home}">Tienda Virtual</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white font-weight-bold" th:href="@{/eventos}">Eventos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white font-weight-bold" th:href="@{/contacto}">Contacto</a>
+                    <a class="nav-link text-white font-weight-bold" th:href="@{/home/contact}">Contacto</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link text-white bi bi-cart" th:href="@{/user/cart/get-cart}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                             class="bi bi-cart" viewBox="0 0 16 16">
-                            <path
-                                    d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                        </svg>
+                        <img src="/images/carrito.png" alt="carrito">
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white bi bi-door-open font-weight-bold" th:href="@{/login}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                             class="bi bi-door-open" viewBox="0 0 16 16">
-                            <path
-                                    d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z" />
-                            <path
-                                    d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117zM11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5zM4 1.934V15h6V1.077l-6 .857z" />
-                        </svg>
-                        Login
+                        <img src="/images/sesion.png" alt="sesion">
+                        Iniciar Sesión
                     </a>
                 </li>
             </ul>
@@ -83,10 +84,8 @@
     </div>
 </nav>
 
-
 <!-- Page Content -->
 <div class="container">
-
     <div class="card mb-3 mt-4">
         <div class="row no-gutters">
             <div class="col-md-4"></div>
@@ -102,65 +101,89 @@
     </div>
 
     <form th:object="${userDto}" th:action="@{/register}" method="post">
-        <div class="form-group">
-            <label for="firstName">Nombre:</label>
-            <input type="text" placeholder="Ingrese su nombre" class="form-control" id="firstName" name="firstName" autocomplete="off">
-            <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="error"></p>
-        </div>
-
-        <div class="form-group">
-            <label for="lastName">Apellido:</label>
-            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Ingrese su apellido" autocomplete="off">
-            <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="error"></p>
-        </div>
-
-        <div class="form-group">
-            <label for="personalId">Cédula:</label>
-            <input type="text" class="form-control" id="personalId" name="personalId" placeholder="Ingrese su cédula" autocomplete="off">
-            <p th:if="${#fields.hasErrors('personalId')}" th:errors="*{personalId}" th:errorclass="error"></p>
-        </div>
-
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su email" autocomplete="off">
-            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="error"></p>
-        </div>
-
-        <div class="form-group">
-            <label for="address">Dirección:</label>
-            <input type="text" class="form-control" id="address" name="address" placeholder="Ingrese su dirección" autocomplete="off">
-            <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" th:errorclass="error"></p>
-        </div>
-
-        <div class="form-group">
-            <label for="cellphone">Teléfono:</label>
-            <input type="tel" class="form-control" id="cellphone" name="cellphone" placeholder="Ingrese su teléfono" autocomplete="off">
-            <p th:if="${#fields.hasErrors('cellphone')}" th:errors="*{cellphone}" th:errorclass="error"></p>
-        </div>
-
-        <div class="form-group">
-            <label for="password">Contraseña:</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese su contraseña" autocomplete="off">
-            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="error"></p>
-            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
-                <small class="error">Debe contener al menos una letra mayúscula y un carácter especial @#$%&*.</small>
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <label for="firstName">Nombre:</label>
+                <input type="text" placeholder="Ingrese su nombre" class="form-control" id="firstName"
+                       name="firstName" autocomplete="off">
+                <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="error"></p>
+            </div>
+            <div class="col-sm-6">
+                <label for="lastName">Apellido:</label>
+                <input type="text" class="form-control" id="lastName" name="lastName"
+                       placeholder="Ingrese su apellido" autocomplete="off">
+                <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="error"></p>
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="confirmPassword">Confirmar contraseña:</label>
-            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirme su contraseña" autocomplete="off">
-            <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" th:errorclass="error"></p>
-        </div>
-
-        <div class="form-group">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="showPassword">
-                <label class="form-check-label" for="showPassword">Mostrar contraseña</label>
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <label for="personalId">Cédula:</label>
+                <input type="text" class="form-control" id="personalId" name="personalId"
+                       placeholder="Ingrese su cédula" autocomplete="off" onkeypress="return valideKey(event);"required>
+                <p th:if="${#fields.hasErrors('personalId')}" th:errors="*{personalId}"
+                   th:errorclass="error"></p>
+            </div>
+            <div class="col-sm-6">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su email"
+                       autocomplete="off">
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="error"></p>
             </div>
         </div>
 
-        <div class="col-sm-2">
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <label for="address">Dirección:</label>
+                <input type="text" class="form-control" id="address" name="address" placeholder="Ingrese su dirección"
+                       autocomplete="off">
+                <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" th:errorclass="error"></p>
+            </div>
+            <div class="col-sm-6">
+                <label for="cellphone">Teléfono:</label>
+                <input type="tel" class="form-control" id="cellphone" name="cellphone"
+                       placeholder="Ingrese su teléfono" autocomplete="off" onkeypress="return valideKey(event);">
+                <p th:if="${#fields.hasErrors('cellphone')}" th:errors="*{cellphone}" th:errorclass="error"></p>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <label for="password">Contraseña:</label>
+                <input type="password" class="form-control" id="password" name="password"
+                       placeholder="Ingrese su contraseña" autocomplete="off">
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="error"></p>
+                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                    <small class="error">Debe contener al menos una letra mayúscula y un carácter especial @#$%&*.</small>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="showPassword">
+                        <label class="form-check-label" for="showPassword">Mostrar contraseña</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <label for="confirmPassword">Confirmar contraseña:</label>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                       placeholder="Confirme su contraseña" autocomplete="off" onkeyup="checkPasswordStrength(this.value)">
+                <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"
+                   th:errorclass="error"></p>
+
+                <ul id="password-conditions">
+                    <li id="uppercase">Al menos una letra mayúscula</li>
+                    <li id="specialchar">Al menos un carácter especial</li>
+                    <li id="lettercount">Mínimo 5 letras</li>
+                    <li id="numbercount">Al menos 2 números</li>
+                </ul>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
             <button type="submit" class="btn btn-success">Guardar</button>
         </div>
     </form>
@@ -169,10 +192,9 @@
 
 </div>
 
-<!-- /.container -->
-
 <!-- Footer -->
 <div th:insert="~{user/template_user::footer}"></div>
+</div>
 
 <!-- Bootstrap core JavaScript -->
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
@@ -193,6 +215,43 @@
             }
         });
     });
+
+    function valideKey(evt){
+
+    // code is the decimal ASCII representation of the pressed key.
+    var code = (evt.which) ? evt.which : evt.keyCode;
+
+    if(code==8) { // backspace.
+      return true;
+    } else if(code>=48 && code<=57) { // is a number.
+      return true;
+    } else{ // other keys.
+      return false;
+    }
+}
+
+function checkPasswordStrength(password) {
+  var conditions = {
+    uppercase: /[A-Z]/.test(password),
+    specialchar: /[@#$%&*.]/.test(password),
+    lettercount: /[a-zA-Z]{5,}/.test(password),
+    numbercount: (password.match(/\d/g) || []).length >= 2
+  };
+
+  var passwordConditions = document.getElementById("password-conditions");
+
+  for (var condition in conditions) {
+    var conditionElement = document.getElementById(condition);
+
+    if (conditions[condition]) {
+      conditionElement.classList.add("valid");
+      conditionElement.classList.remove("invalid");
+    } else {
+      conditionElement.classList.add("invalid");
+      conditionElement.classList.remove("valid");
+    }
+  }
+}
 </script>
 
 </body>

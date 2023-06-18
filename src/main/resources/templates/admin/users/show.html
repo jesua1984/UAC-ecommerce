@@ -56,6 +56,7 @@
   <table class="table">
     <thead>
       <tr>
+        <th scope="col">id</th>
         <th scope="col">Nombre</th>
         <th scope="col">Apellido</th>
         <th scope="col">Cédula</th>
@@ -67,6 +68,7 @@
     </thead>
     <tbody>
     <tr th:each="user:${users}">
+      <td th:text="${user.id}"></td>
       <td th:text="${user.firstName}"></td>
       <td th:text="${user.lastName}"></td>
       <td th:text="${user.personalId}"></td>
@@ -76,7 +78,7 @@
       <td  style="text-align: center;">
         <div class="btn-group btn-group-sm">
           <a class="btn btn-warning" th:href="@{/admin/users/edit/{id} (id = ${user.id}) }">Editar</a>
-          <a class="btn btn-danger eliminar-registro" th:href="@{/admin/users/delete/{id}(id=${user.id})}" data-id="${user.id}">Baja</a>
+          <a class="btn btn-danger" th:href="@{/admin/users/delete/{id} (id = ${user.id})}">Baja</a>
           <a class="btn btn-primary" th:href="@{/admin/orders/{id} (id = ${user.id}) }">Órdenes</a>
         </div>
       </td>
@@ -123,48 +125,6 @@
   <!-- Toastr JavaScript -->
   <script th:src="@{/vendor/toastr/build/toastr.min.js}"></script>
 
-  <!-- Bootbox JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
-
-  <!-- Custom script for showing success message -->
-  <script>
-  $(document).ready(function() {
-  // Obtén todos los enlaces con la clase "eliminar-registro"
-  var eliminarEnlaces = $('.eliminar-registro');
-
-  // Agrega un evento de clic a cada enlace
-  eliminarEnlaces.on('click', function(event) {
-    event.preventDefault();
-
-    var enlace = $(this);
-    var registroId = parseInt(enlace.attr('data-id'), 10);
-
-    // Muestra el cuadro de confirmación de Bootbox
-    bootbox.confirm({
-      message: "¿Estás seguro de que deseas dar de baja este usuario?",
-      buttons: {
-        confirm: {
-          label: 'Sí',
-          className: 'btn-danger'
-        },
-        cancel: {
-          label: 'No',
-          className: 'btn-secondary'
-        }
-      },
-      callback: function(result) {
-        // Si el usuario confirma la eliminación, redirige a la página de eliminación
-        if (result) {
-          // Actualiza el enlace para dirigirlo a la página de eliminación
-
-          window.location.href = '/admin/users/delete/' + registroId;
-        }
-      }
-    });
-  });
-});
-
-</script>
 
 </body>
 

@@ -35,6 +35,11 @@ public class LoginService {
         return userService.findByEmail(email ).getUserType();
     }
 
+    //obtenemos el status de usuario
+    public String getUserStatus(String email){
+        return userService.findByEmail(email ).getUserStatus();
+    }
+
     //obtenemos el usuario por email
     public User getUser(String email){
         try{

@@ -1,5 +1,6 @@
 package com.UAC.ecommerce.infrastructure.controller;
 
+import com.UAC.ecommerce.application.service.EmailService;
 import com.UAC.ecommerce.application.service.RegistrationService;
 import com.UAC.ecommerce.application.service.UserService;
 import com.UAC.ecommerce.domain.User;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Controller
@@ -25,9 +25,12 @@ public class RegistrationController {
 
     private final UserService userService;
 
-    public RegistrationController(RegistrationService registrationService, UserService userService) {
+    private final EmailService emailService;
+
+    public RegistrationController(RegistrationService registrationService, UserService userService, EmailService emailService) {
         this.registrationService = registrationService;
         this.userService = userService;
+        this.emailService = emailService;
     }
 
     @GetMapping
@@ -57,15 +60,15 @@ public class RegistrationController {
         // Validar que la contraseña tenga al menos una letra mayúscula, un carácter especial, 5 letras y 2 números
         Pattern uppercasePattern = Pattern.compile(".*[A-Z].*");
         Pattern specialCharPattern = Pattern.compile(".*[@#$%&*.].*");
-        Pattern letterPattern = Pattern.compile("[a-zA-Z]{5,}");
-        Pattern numberPattern = Pattern.compile(".*\\d.*");
+        Pattern letterPattern = Pattern.compile("(.*[a-zA-Z]){5}.*");
+        Pattern numberPattern = Pattern.compile("(.*\\d){2}.*");
 
         if (!uppercasePattern.matcher(userDto.getPassword()).matches() ||
                 !specialCharPattern.matcher(userDto.getPassword()).matches() ||
                 !letterPattern.matcher(userDto.getPassword()).matches() ||
                 !numberPattern.matcher(userDto.getPassword()).matches()) {
             bindingResult.rejectValue("password", "error.password", "");
-            redirectAttributes.addFlashAttribute("mensaje", "Formato de Contraseña no permitido")
+            redirectAttributes.addFlashAttribute("mensaje", "La contraseña debe contener al menos una letra mayúscula, un carácter especial (@#$%&*.), 5 letras y 2 dígitos")
                     .addFlashAttribute("clase", "danger");
         }
 
@@ -80,6 +83,8 @@ public class RegistrationController {
         registrationService.register(userDto.userDtoToUser());
         redirectAttributes.addFlashAttribute("mensaje", "Usuario creado correctamente")
                 .addFlashAttribute("clase", "success");
+        String email = userDto.getEmail();
+        emailService.enviarCorreoBienvenida(email);
         return "redirect:/login";
     }
 

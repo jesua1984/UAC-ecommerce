@@ -33,7 +33,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable().authorizeHttpRequests().requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/user/**").hasRole("USER").anyRequest().permitAll()
-                .and().formLogin().loginPage("/login").successHandler(loginHandler).and().logout().logoutSuccessUrl("/close");
+                .and().formLogin().loginPage("/login").successHandler(loginHandler).failureUrl("/login?error=true")
+                .and().logout().logoutSuccessUrl("/close");
         return httpSecurity.build();
     }
 

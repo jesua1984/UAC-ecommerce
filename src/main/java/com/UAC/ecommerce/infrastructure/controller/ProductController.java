@@ -87,6 +87,8 @@ public class ProductController {
     public String deleteProduct(@PathVariable Long id, RedirectAttributes redirectAttributes){
         try{
             productService.deleteProductById(id);
+            redirectAttributes.addFlashAttribute("mensaje", "Producto Eliminado correctamente")
+                    .addFlashAttribute("clase", "success");
             return "redirect:/admin/products/show";
 
         }catch (Exception e){

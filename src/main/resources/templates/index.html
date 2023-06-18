@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Página Principal</title>
+
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link th:href="@{css/heroic-features.css}" rel="stylesheet">
+
+  <!-- Toastr CSS -->
+  <link th:href="@{/vendor/toastr/build/toastr.min.css}" rel="stylesheet">
+
+  <style type="text/css">
+  .jumbotron {
+  position: relative;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/pescados1.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  height: 500px;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  }
+
+.container-fluid {
+  height: 100%;
+  padding: 0;
+}
+
+  .shadow-effect {
+  transition: box-shadow 0.3s ease;
+}
+
+.shadow-effect:hover {
+  box-shadow: 0 0 5px 2px rgba(0, 0, 255, 0.5);
+}
+
+.separation {
+    margin-bottom: 3cm;
+  }
+
+  </style>
+
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<div th:insert = "~{user/template_user::header}" th:if="${id==null}"></div>
+
+<div th:insert = "~{user/template_user::userlogged}" th:unless="${id==null}"></div>
+
+<!-- Jumbotron Header -->
+<div class="container-fluid">
+  <!-- Aquí va el contenido de la página -->
+  <header class="jumbotron my-4">
+    <h1 class="display-3">BIENVENIDOS A PESCADERIA FIDYFER</h1>
+    <p class="lead">Tu tienda de productos del mar en Línea</p>
+  </header>
+</div>
+
+<!-- Page Content -->
+<div class="container">
+  <h3 class="text-center separation">Ahora puedes pedir nuestros productos desde la comodidad de tu hogar.</h3>
+
+  <div class="row text-center d-flex justify-content-center">
+    <div class="col-lg-2 col-md-6 mb-4">
+      <div class="card h-100">
+        <a href="URL_DE_LA_PRIMERA_PAGINA_DESTINO">
+          <img class="card-img-top shadow-effect" src="/images/categoria_pescado.png" alt="">
+        </a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-6 mb-4">
+      <div class="card h-100">
+        <a href="URL_DE_LA_SEGUNDA_PAGINA_DESTINO">
+          <img class="card-img-top shadow-effect" src="/images/categoria_marisco.png" alt="">
+        </a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-6 mb-4">
+      <div class="card h-100">
+        <a href="URL_DE_LA_SEGUNDA_PAGINA_DESTINO">
+          <img class="card-img-top shadow-effect" src="/images/categoria_tuberculo.png" alt="">
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <a th:href="@{/home}" class="btn btn-outline-primary mt-4">COMPRAR AQUÍ</a>
+  </div>
+
+  <div class="row text-center mt-5">
+    <div class="col-lg-4 mb-4">
+      <img src="/images/envio2.png" alt="Envío seguro">
+      <h4>Sitio seguro</h4>
+      <p>Contamos con cobertura de envíos para la ciudad de Barranquilla y su área metropolitana</p>
+    </div>
+    <div class="col-lg-4 mb-4">
+      <img src="/images/candado.png" alt="Sitio seguro">
+      <h4>Pago seguro</h4>
+      <p>No te preocupes nosotros cuidamos tus datos.</p>
+    </div>
+    <div class="col-lg-4 mb-4">
+      <img src="/images/calidad.png" alt="Calidad garantizada">
+      <h4>Calidad garantizada</h4>
+      <p>Los productos con la misma calidad que encuentras en nuestra tienda física</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- /.container -->
+
+
+<!-- Footer -->
+<div th:insert = "~{user/template_user::footer}"></div>
+
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/vendor/toastr/build/toastr.min.js}"></script>
+
+<script>
+  $(document).ready(function () {
+    if ($('#success-message').length > 0) {
+      toastr.success($('#success-message'));
+    }
+  });
+</script>
+
+</body>
+
+</html>

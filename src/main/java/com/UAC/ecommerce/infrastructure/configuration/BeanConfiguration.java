@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -70,5 +71,10 @@ public class BeanConfiguration {
     @Bean
     public LogoutService logoutService(){
         return new LogoutService();
+    }
+
+    @Bean
+    public EmailService emailService(JavaMailSender javaMailSender) {
+        return new EmailService(javaMailSender);
     }
 }
