@@ -5,6 +5,7 @@ import com.UAC.ecommerce.application.service.UserService;
 import com.UAC.ecommerce.domain.User;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +20,11 @@ public class PerfilUserController {
 
     private final UserService userService;
 
-    public PerfilUserController(UserService userService) {
+    private final PasswordEncoder passwordEncoder;
+
+    public PerfilUserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/update")
@@ -44,4 +48,16 @@ public class PerfilUserController {
 
         return "user/edit";
     }
+
+    @PostMapping("/change-password")
+    public String savePassword(User user, RedirectAttributes redirectAttributes, Model model,HttpSession httpSession) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userService.saveUser(user);
+            model.addAttribute("mensaje", "Usuario guardado exitosamente.");
+            model.addAttribute("clase", "success");
+
+        return "user/edit";
+    }
+
+
 }

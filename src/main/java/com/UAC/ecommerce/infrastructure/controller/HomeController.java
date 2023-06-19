@@ -73,6 +73,32 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping("/privacidad")
+    public String privacidad(Model model,HttpSession httpSession){
+        try {
+            model.addAttribute("id", httpSession.getAttribute("iduser").toString());
+        } catch (Exception e) {
+            // Manejar excepción
+        }
+
+
+        return "privacidad";
+    }
+
+    @GetMapping("/entregas")
+    public String entregas(Model model,HttpSession httpSession){
+        try {
+            model.addAttribute("id", httpSession.getAttribute("iduser").toString());
+        } catch (Exception e) {
+            // Manejar excepción
+        }
+
+
+        return "entregas";
+    }
+
+
+
     @GetMapping("/us")
     public String us(Model model,HttpSession httpSession){
         try {

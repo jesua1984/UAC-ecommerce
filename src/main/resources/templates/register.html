@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Spring eCommerce</title>
+    <title>Registrarse</title>
     <!-- Bootstrap core CSS -->
     <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -16,7 +16,7 @@
             color: red;
         }
         .form-group label {
-            font-weight: bold;
+            font-weight: normal;
         }
         .form-group input[type="password"],
         .form-group input[type="text"],
@@ -31,13 +31,11 @@
             margin-top: 10px;
         }
         .valid {
-  color: green;
-}
-
-.invalid {
-  color: red;
-}
-
+            color: green;
+        }
+        .invalid {
+            color: red;
+        }
     </style>
 </head>
 
@@ -55,13 +53,13 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                    <a class="nav-link text-white font-weight-bold" th:href="@{/home/index}">Home</a>
+                    <a class="nav-link text-white font-weight-bold" th:href="@{/home}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white font-weight-bold" th:href="@{/home/us}">Nosotros</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white font-weight-bold" th:href="@{/home}">Tienda Virtual</a>
+                    <a class="nav-link text-white font-weight-bold" th:href="@{/home/tienda}">Tienda Virtual</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white font-weight-bold" th:href="@{/home/contact}">Contacto</a>
@@ -104,14 +102,14 @@
         <div class="form-group row">
             <div class="col-sm-6">
                 <label for="firstName">Nombre:</label>
-                <input type="text" placeholder="Ingrese su nombre" class="form-control" id="firstName"
-                       name="firstName" autocomplete="off">
+                <input type="text" placeholder="Ingrese su nombre" class="form-control " id="firstName"
+                       name="firstName" autocomplete="off" required>
                 <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" th:errorclass="error"></p>
             </div>
             <div class="col-sm-6">
                 <label for="lastName">Apellido:</label>
                 <input type="text" class="form-control" id="lastName" name="lastName"
-                       placeholder="Ingrese su apellido" autocomplete="off">
+                       placeholder="Ingrese su apellido" autocomplete="off" required>
                 <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" th:errorclass="error"></p>
             </div>
         </div>
@@ -120,14 +118,13 @@
             <div class="col-sm-6">
                 <label for="personalId">Cédula:</label>
                 <input type="text" class="form-control" id="personalId" name="personalId"
-                       placeholder="Ingrese su cédula" autocomplete="off" onkeypress="return valideKey(event);"required>
-                <p th:if="${#fields.hasErrors('personalId')}" th:errors="*{personalId}"
-                   th:errorclass="error"></p>
+                       placeholder="Ingrese su cédula" autocomplete="off" onkeypress="return valideKey(event);" required>
+                <p th:if="${#fields.hasErrors('personalId')}" th:errors="*{personalId}" th:errorclass="error"></p>
             </div>
             <div class="col-sm-6">
                 <label for="email">Email:</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su email"
-                       autocomplete="off">
+                       autocomplete="off" required>
                 <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="error"></p>
             </div>
         </div>
@@ -136,13 +133,13 @@
             <div class="col-sm-6">
                 <label for="address">Dirección:</label>
                 <input type="text" class="form-control" id="address" name="address" placeholder="Ingrese su dirección"
-                       autocomplete="off">
+                       autocomplete="off" required>
                 <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" th:errorclass="error"></p>
             </div>
             <div class="col-sm-6">
                 <label for="cellphone">Teléfono:</label>
                 <input type="tel" class="form-control" id="cellphone" name="cellphone"
-                       placeholder="Ingrese su teléfono" autocomplete="off" onkeypress="return valideKey(event);">
+                       placeholder="Ingrese su teléfono" autocomplete="off" required onkeypress="return valideKey(event);">
                 <p th:if="${#fields.hasErrors('cellphone')}" th:errors="*{cellphone}" th:errorclass="error"></p>
             </div>
         </div>
@@ -151,7 +148,7 @@
             <div class="col-sm-6">
                 <label for="password">Contraseña:</label>
                 <input type="password" class="form-control" id="password" name="password"
-                       placeholder="Ingrese su contraseña" autocomplete="off">
+                       placeholder="Ingrese su contraseña" autocomplete="off" required>
                 <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="error"></p>
                 <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
                     <small class="error">Debe contener al menos una letra mayúscula y un carácter especial @#$%&*.</small>
@@ -168,7 +165,7 @@
             <div class="col-sm-6">
                 <label for="confirmPassword">Confirmar contraseña:</label>
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
-                       placeholder="Confirme su contraseña" autocomplete="off" onkeyup="checkPasswordStrength(this.value)">
+                       placeholder="Confirme su contraseña" autocomplete="off" required onkeyup="checkPasswordStrength(this.value)">
                 <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"
                    th:errorclass="error"></p>
 
@@ -181,7 +178,12 @@
             </div>
         </div>
 
-
+        <div class="form-group">
+            <div class="form-check col-sm-6">
+                <input class="form-check-input" type="checkbox" id="dataAuthorization" required>
+                <label class="form-check-label" for="dataAuthorization" style="font-size: 12px;">Autorizo a Pescadería Fidyfer a realizar el tratamiento de mis datos personales para procesar el pedido y otros propósitos descritos en la <a th:href="@{/home/privacidad}" target="_blank">política de privacidad</a> de la empresa.</label>
+            </div>
+        </div>
 
         <div class="form-group">
             <button type="submit" class="btn btn-success">Guardar</button>
@@ -228,32 +230,47 @@
     } else{ // other keys.
       return false;
     }
-}
-
-function checkPasswordStrength(password) {
-  var conditions = {
-    uppercase: /[A-Z]/.test(password),
-    specialchar: /[@#$%&*.]/.test(password),
-    lettercount: /[a-zA-Z]{5,}/.test(password),
-    numbercount: (password.match(/\d/g) || []).length >= 2
-  };
-
-  var passwordConditions = document.getElementById("password-conditions");
-
-  for (var condition in conditions) {
-    var conditionElement = document.getElementById(condition);
-
-    if (conditions[condition]) {
-      conditionElement.classList.add("valid");
-      conditionElement.classList.remove("invalid");
-    } else {
-      conditionElement.classList.add("invalid");
-      conditionElement.classList.remove("valid");
-    }
   }
-}
+
+    function checkPasswordStrength(password) {
+        var conditions = document.getElementById('password-conditions');
+        var uppercase = document.getElementById('uppercase');
+        var specialchar = document.getElementById('specialchar');
+        var lettercount = document.getElementById('lettercount');
+        var numbercount = document.getElementById('numbercount');
+
+        var uppercaseRegex = /^(?=.*[A-Z])/;
+        var specialcharRegex = /^(?=.*[@#$%&*.])/;
+        var lettercountRegex = /^(?=.*[a-zA-Z]).{5,}$/;
+        var numbercountRegex = /^(?=.*[0-9].*[0-9])/;
+
+        if (uppercaseRegex.test(password)) {
+            uppercase.classList.add('valid');
+        } else {
+            uppercase.classList.remove('valid');
+        }
+
+        if (specialcharRegex.test(password)) {
+            specialchar.classList.add('valid');
+        } else {
+            specialchar.classList.remove('valid');
+        }
+
+        if (lettercountRegex.test(password)) {
+            lettercount.classList.add('valid');
+        } else {
+            lettercount.classList.remove('valid');
+        }
+
+        if (numbercountRegex.test(password)) {
+            numbercount.classList.add('valid');
+        } else {
+            numbercount.classList.remove('valid');
+        }
+    }
 </script>
 
 </body>
 
 </html>
+
