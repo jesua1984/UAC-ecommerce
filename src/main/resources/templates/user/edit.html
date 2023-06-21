@@ -85,6 +85,7 @@
     <!-- Pestaña de Perfil -->
     <div class="tab-pane fade show active" id="perfil">
       <h2>Mis Datos</h2>
+
       <!-- ...código del formulario y contenido de perfil... -->
       <form class="form-horizontal" th:action="@{/user/save-user}" method="post">
         <input type="hidden" name="id" th:value="${user.id}">
@@ -115,7 +116,7 @@
           </div>
           <div class="form-group col-md-6">
             <label class="control-label" for="email">Correo electrónico:</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese el correo electrónico" required autocomplete="off"
+            <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese el correo electrónico" required readonly autocomplete="off"
                    th:value="${user.email}">
           </div>
         </div>
@@ -135,7 +136,7 @@
 
         <div class="row">
           <div class="col-sm-12">
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="submit" class="btn btn-success">Guardar</button>
           </div>
         </div>
 
@@ -147,7 +148,7 @@
     <div class="tab-pane fade" id="autenticacion">
       <h2>Cambiar Contraseña</h2>
       <!-- ...código del formulario y contenido de autenticación... -->
-      <form class="form-horizontal" th:action="@{/user/change-password}" method="post">
+      <form th:object="${userDto}"  class="form-horizontal" th:action="@{#}" method="post">
         <!-- ...código del formulario de autenticación... -->
         <input type="hidden" name="id" th:value="${user.id}">
         <input type="hidden" name="dateCreated" th:value="${user.dateCreated}">
@@ -162,27 +163,30 @@
         <input type="hidden" name="cellphone" th:value="${user.cellphone}">
 
 
-        <div class="form-group">
-          <label for="password">Contraseña Nueva:</label>
-          <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese la contraseña nueva" required>
-        </div>
-
-        <div class="form-group">
-          <label for="confirmPassword">Confirmar contraseña:</label>
-          <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Ingrese la contraseña nuevamente" required>
-        </div>
-
-        <ul id="password-conditions">
-          <li id="uppercase">Al menos una letra mayúscula</li>
-          <li id="specialchar">Al menos un carácter especial</li>
-          <li id="lettercount">Mínimo 5 letras</li>
-          <li id="numbercount">Al menos 2 números</li>
-        </ul>
-
-        <div class="row">
-          <div class="col-sm-12">
-            <button type="submit" class="btn btn-primary" id="submitBtn">Guardar</button>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="password">Contraseña:</label>
+            <input type="password" class="form-control" id="password" name="password"
+                   placeholder="Ingrese su contraseña" autocomplete="off" required>
           </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label for="confirmPassword">Confirmar contraseña:</label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                   placeholder="Confirme su contraseña" autocomplete="off" required onkeyup="checkPasswordStrength(this.value)">
+            <div class="form-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="showPassword">
+                <label class="form-check-label" for="showPassword">Mostrar contraseña</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-success">Guardar</button>
         </div>
       </form>
     </div>
@@ -201,47 +205,28 @@
 
 <script>
     $(document).ready(function() {
+      // Mostrar/ocultar contraseña
+      $("#showPassword").change(function() {
+        var passwordField = $("#password");
+        var confirmPasswordField = $("#confirmPassword");
+        if (this.checked) {
+          passwordField.attr("type", "text");
+          confirmPasswordField.attr("type", "text");
+        } else {
+          passwordField.attr("type", "password");
+          confirmPasswordField.attr("type", "password");
+        }
+      });
+    });
+
+    $(document).ready(function() {
       // Cambiar la pestaña activa al hacer clic en una pestaña
       $('.nav-tabs a').click(function() {
         $(this).tab('show');
       });
 
-      // Validar contraseñas iguales y condiciones
-      $('#submitBtn').click(function(event) {
-        var password = $('#password').val();
-        var confirmPassword = $('#confirmPassword').val();
-
-        if (password !== confirmPassword) {
-          toastr.error('Las contraseñas no coinciden.');
-          event.preventDefault();
-        }
-
-        var regexUppercase = new RegExp('[A-Z]');
-        var regexSpecialChar = new RegExp('[@#$%&*.]');
-        var regexLetterCount = new RegExp('[a-zA-Z]{5,}');
-        var regexNumberCount = new RegExp('[0-9].*[0-9]');
-
-        if (!regexUppercase.test(password)) {
-          toastr.error('La contraseña debe contener al menos una letra mayúscula.');
-          event.preventDefault();
-        }
-
-        if (!regexSpecialChar.test(password)) {
-          toastr.error('La contraseña debe contener al menos un carácter especial.');
-          event.preventDefault();
-        }
-
-        if (!regexLetterCount.test(password)) {
-          toastr.error('La contraseña debe contener al menos 5 letras.');
-          event.preventDefault();
-        }
-
-        if (!regexNumberCount.test(password)) {
-          toastr.error('La contraseña debe contener al menos 2 números.');
-          event.preventDefault();
-        }
-      });
     });
+
   </script>
 </body>
 

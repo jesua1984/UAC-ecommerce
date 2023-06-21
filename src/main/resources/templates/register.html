@@ -118,8 +118,9 @@
             <div class="col-sm-6">
                 <label for="personalId">Cédula:</label>
                 <input type="text" class="form-control" id="personalId" name="personalId"
-                       placeholder="Ingrese su cédula" autocomplete="off" onkeypress="return valideKey(event);" required>
-                <p th:if="${#fields.hasErrors('personalId')}" th:errors="*{personalId}" th:errorclass="error"></p>
+                       placeholder="Ingrese su cédula" autocomplete="off" onkeypress="return valideKey(event);"required>
+                <p th:if="${#fields.hasErrors('personalId')}" th:errors="*{personalId}"
+                   th:errorclass="error"></p>
             </div>
             <div class="col-sm-6">
                 <label for="email">Email:</label>
@@ -230,45 +231,32 @@
     } else{ // other keys.
       return false;
     }
-  }
+}
 
-    function checkPasswordStrength(password) {
-        var conditions = document.getElementById('password-conditions');
-        var uppercase = document.getElementById('uppercase');
-        var specialchar = document.getElementById('specialchar');
-        var lettercount = document.getElementById('lettercount');
-        var numbercount = document.getElementById('numbercount');
+function checkPasswordStrength(password) {
+  var conditions = {
+    uppercase: /[A-Z]/.test(password),
+    specialchar: /[@#$%&*.]/.test(password),
+    lettercount: /[a-zA-Z]{5,}/.test(password),
+    numbercount: (password.match(/\d/g) || []).length >= 2
+  };
 
-        var uppercaseRegex = /^(?=.*[A-Z])/;
-        var specialcharRegex = /^(?=.*[@#$%&*.])/;
-        var lettercountRegex = /^(?=.*[a-zA-Z]).{5,}$/;
-        var numbercountRegex = /^(?=.*[0-9].*[0-9])/;
+  var passwordConditions = document.getElementById("password-conditions");
 
-        if (uppercaseRegex.test(password)) {
-            uppercase.classList.add('valid');
-        } else {
-            uppercase.classList.remove('valid');
-        }
+  for (var condition in conditions) {
+    var conditionElement = document.getElementById(condition);
 
-        if (specialcharRegex.test(password)) {
-            specialchar.classList.add('valid');
-        } else {
-            specialchar.classList.remove('valid');
-        }
-
-        if (lettercountRegex.test(password)) {
-            lettercount.classList.add('valid');
-        } else {
-            lettercount.classList.remove('valid');
-        }
-
-        if (numbercountRegex.test(password)) {
-            numbercount.classList.add('valid');
-        } else {
-            numbercount.classList.remove('valid');
-        }
+    if (conditions[condition]) {
+      conditionElement.classList.add("valid");
+      conditionElement.classList.remove("invalid");
+    } else {
+      conditionElement.classList.add("invalid");
+      conditionElement.classList.remove("valid");
     }
+  }
+}
 </script>
+
 
 </body>
 

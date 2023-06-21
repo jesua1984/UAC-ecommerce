@@ -3,14 +3,18 @@ package com.UAC.ecommerce.infrastructure.controller;
 
 import com.UAC.ecommerce.application.service.UserService;
 import com.UAC.ecommerce.domain.User;
+import com.UAC.ecommerce.infrastructure.dto.UserDto;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -50,11 +54,20 @@ public class PerfilUserController {
     }
 
     @PostMapping("/change-password")
-    public String savePassword(User user, RedirectAttributes redirectAttributes, Model model,HttpSession httpSession) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.saveUser(user);
-            model.addAttribute("mensaje", "Usuario guardado exitosamente.");
-            model.addAttribute("clase", "success");
+    public String savePassword(UserDto userDto, Model model, BindingResult bindingResult) {
+
+
+
+        if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
+            bindingResult.rejectValue("confirmPassword", "error.confirmPassword", "");
+            model.addAttribute("mensaje", "Las contraseñas no coinciden");
+            model.addAttribute("clase", "danger");
+        }
+
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userService.saveUser(userDto.userDtoToUser());
+        model.addAttribute("mensaje", "Usuario guardado exitosamente.");
+        model.addAttribute("clase", "success");
 
         return "user/edit";
     }
