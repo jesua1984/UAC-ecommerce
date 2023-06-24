@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/products/stock")
+@RequestMapping("admin/products/stock")
 public class StockController {
     private final StockService stockService;
     private final ValidateStock validateStock;
@@ -31,13 +31,13 @@ public class StockController {
         List<Stock> stocks = stockService.getStockByProduct(product);
         model.addAttribute("stocks", stocks);
         model.addAttribute("idproduct",id);
-        return  "/admin/stock/show";
+        return  "admin/stock/show";
     }
 
     @GetMapping("/create-unit-product/{id}")
     public String create(@PathVariable Long id, Model model){
         model.addAttribute("idproduct", id);
-        return "/admin/stock/create";
+        return "admin/stock/create";
     }
 
     @PostMapping("/save-unit-product")

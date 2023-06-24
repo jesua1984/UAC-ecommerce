@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.math.BigDecimal;
 
 @Controller
-@RequestMapping("/user/cart")
+@RequestMapping("user/cart")
 @Slf4j
 public class CartController {
     private final CartService cartService;
@@ -41,7 +41,7 @@ public class CartController {
         model.addAttribute("cart", cartService.getItemCarts());
         model.addAttribute("total", cartService.getTotalCart());
         model.addAttribute("id", httpSession.getAttribute("iduser").toString());
-        return "/user/cart/cart";
+        return "user/cart/cart";
     }
 
     @GetMapping("/delete-item-cart/{id}")

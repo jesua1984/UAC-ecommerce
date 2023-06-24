@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("user")
 @Slf4j
 public class PerfilUserController {
 
@@ -39,7 +39,7 @@ public class PerfilUserController {
         user = userService.getUserById(id);
         log.info("usuario obtenido: {}",user);
         model.addAttribute("user", user);
-        return "/user/edit";
+        return "user/edit";
     }
 
     @PostMapping("/save-user")

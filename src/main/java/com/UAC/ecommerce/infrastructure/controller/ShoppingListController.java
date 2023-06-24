@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user/cart/shopping")
+@RequestMapping("user/cart/shopping")
 public class ShoppingListController {
     private final OrderService orderService;
     private final UserService userService;

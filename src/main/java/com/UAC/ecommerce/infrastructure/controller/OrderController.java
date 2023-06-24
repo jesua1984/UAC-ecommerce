@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user/order")
+@RequestMapping("user/order")
 @Slf4j
 public class OrderController {
     private final CartService cartService;

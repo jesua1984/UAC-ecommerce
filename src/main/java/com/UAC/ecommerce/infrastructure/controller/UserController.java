@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/admin/users")
+@RequestMapping("admin/users")
 @Slf4j
 public class UserController {
     private final UserService userService;
@@ -53,7 +53,7 @@ public class UserController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", userPage.getTotalPages());
 
-        return "/admin/users/show";
+        return "admin/users/show";
     }
 
     @GetMapping("/edit/{id}")
@@ -61,7 +61,7 @@ public class UserController {
         User user = userService.getUserById(id);
         log.info("usuario obtenido: {}",user);
         model.addAttribute("user", user);
-        return "/admin/users/edit";
+        return "admin/users/edit";
     }
 
     @GetMapping("/update")
@@ -72,7 +72,7 @@ public class UserController {
         user = userService.getUserById(id);
         log.info("usuario obtenido: {}",user);
         model.addAttribute("user", user);
-        return "/user/edit";
+        return "user/edit";
     }
 
 

@@ -29,7 +29,7 @@ public class CategoryController {
         categoryService.saveCategory(category);
         redirectAttributes.addFlashAttribute("mensaje", "Acción realizada con éxito")
                 .addFlashAttribute("clase", "success");
-        return "redirect:admin/categories/show";
+        return "redirect:/admin/categories/show";
     }
     @GetMapping("/show")
     public String showCategory(Model model, @RequestParam(defaultValue = "0") int page,
@@ -59,7 +59,7 @@ public class CategoryController {
         }catch (Exception e){
             redirectAttributes.addFlashAttribute("mensaje", "No es posible Eliminar, existen productos creados con la categoría")
                     .addFlashAttribute("clase", "danger");
-            return "redirect:admin/categories/show";
+            return "redirect:/admin/categories/show";
         }
 
     }
