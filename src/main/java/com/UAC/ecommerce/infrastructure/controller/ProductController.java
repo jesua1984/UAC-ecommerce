@@ -117,6 +117,4 @@ public class ProductController {
         model.addAttribute("categories", categories);
     }
 
-
-
 }

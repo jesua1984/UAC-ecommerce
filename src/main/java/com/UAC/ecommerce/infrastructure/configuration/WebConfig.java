@@ -52,7 +52,13 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/user").setViewName("user/home");
         registry.addViewController("/user/update").setViewName("user/edit");
         registry.addViewController("/user/cart/get-cart").setViewName("/user/cart/cart");
-        registry.addViewController("/admin/products/show").setViewName("/admin/products/show");
+
+
+        registry.addViewController("/admin/products/create").setViewName("admin/products/create");
+        registry.addViewController("/admin/products/show").setViewName("admin/products/show");
+        registry.addViewController("/admin/products/edit/{id}").setViewName("admin/products/edit");
+// ... otras rutas y vistas correspondientes
+
 
         // Puedes agregar más rutas y vistas aquí si es necesario
     }
