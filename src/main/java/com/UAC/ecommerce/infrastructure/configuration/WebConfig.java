@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.TemplateEngine;
@@ -43,6 +44,13 @@ public class WebConfig implements WebMvcConfigurer {
         resolver.setTemplateMode(TemplateMode.HTML);
         resolver.setCharacterEncoding("UTF-8");
         return resolver;
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/admin").setViewName("home");
+        registry.addViewController("/user").setViewName("edit");
+        // Puedes agregar más rutas y vistas aquí si es necesario
     }
 }
 
