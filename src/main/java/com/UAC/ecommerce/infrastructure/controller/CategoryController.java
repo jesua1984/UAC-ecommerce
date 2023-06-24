@@ -11,23 +11,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 @Controller
-@RequestMapping("admin/categories")
+@RequestMapping("/admin/categories")
 @Slf4j
 public class CategoryController {
-
     private final CategoryService categoryService;
-
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
-
     @GetMapping("/create")
     public String create(){
         return "admin/categories/create";
     }
-
     @PostMapping("/save-category")
     public String saveCategory(Category category, RedirectAttributes redirectAttributes){
         log.info("Nombre de la categoria: {}",category);
@@ -36,7 +31,6 @@ public class CategoryController {
                 .addFlashAttribute("clase", "success");
         return "redirect:/admin/categories/show";
     }
-
     @GetMapping("/show")
     public String showCategory(Model model, @RequestParam(defaultValue = "0") int page,
                                @RequestParam(defaultValue = "10") int size){
@@ -47,7 +41,6 @@ public class CategoryController {
         model.addAttribute("totalPages", categoriesPage.getTotalPages());
         return "/admin/categories/show";
     }
-
     @GetMapping("/edit/{id}")
     public String editCategory(@PathVariable Long id, Model model){
         Category category = categoryService.getCategoryById(id);
@@ -55,7 +48,6 @@ public class CategoryController {
         model.addAttribute("category", category);
         return "/admin/categories/edit";
     }
-
     @GetMapping("/delete/{id}")
     public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes){
         try{
@@ -68,7 +60,6 @@ public class CategoryController {
             redirectAttributes.addFlashAttribute("mensaje", "No es posible Eliminar, existen productos creados con la categoría")
                     .addFlashAttribute("clase", "danger");
             return "redirect:/admin/categories/show";
-
         }
 
     }

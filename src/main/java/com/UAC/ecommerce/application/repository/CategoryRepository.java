@@ -1,12 +1,12 @@
 package com.UAC.ecommerce.application.repository;
 
 import com.UAC.ecommerce.domain.Category;
-import com.UAC.ecommerce.domain.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
+@Repository
 public interface CategoryRepository {
     Iterable<Category> getCategories();
 

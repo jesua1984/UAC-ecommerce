@@ -25,9 +25,11 @@ public class OrderController {
     private final OrderProductService orderProductService;
     private final StockService stockService;
     private final ValidateStock validateStock;
+
+    private final EmailService emailService;
     private final int UNIT_IN = 0;
 
-    public OrderController(CartService cartService, UserService userService, ProductService productService, OrderService orderService, OrderProductService orderProductService, StockService stockService, ValidateStock validateStock) {
+    public OrderController(CartService cartService, UserService userService, ProductService productService, OrderService orderService, OrderProductService orderProductService, StockService stockService, ValidateStock validateStock, EmailService emailService) {
         this.cartService = cartService;
         this.userService = userService;
         this.productService = productService;
@@ -35,6 +37,7 @@ public class OrderController {
         this.orderProductService = orderProductService;
         this.stockService = stockService;
         this.validateStock = validateStock;
+        this.emailService = emailService;
     }
 
     @GetMapping("/sumary-order")
@@ -71,7 +74,6 @@ public class OrderController {
 
         order = orderService.createOrder(order);
 
-
         //order product
         List<OrderProduct> orderProducts = new ArrayList<>();
 
@@ -80,6 +82,8 @@ public class OrderController {
         for (ItemCart itemCart : cartService.getItemCarts()){
             orderProducts.add(new OrderProduct(productService.getProductById(itemCart.getIdProduct()),itemCart.getQuantity(),order));
         }
+
+        log.info("productos de la orden: {}", cartService.getItemCarts());
 
         //guardar
         orderProducts.forEach(
@@ -92,11 +96,17 @@ public class OrderController {
                     stock.setUnitIn(UNIT_IN);
                     stock.setUnitOut(op.getQuantity());
                     stockService.saveStock(validateStock.calculateBalance(stock));
+
                 }
         );
+
+
+        //emailService.enviarCorreoOrdenCreada("jesua.lindado@gmail.com",order, cartService.getItemCarts());
+
         //vaciar carrito
         cartService.removeAllItemsCart();
         attributes.addFlashAttribute("id", httpSession.getAttribute("iduser").toString());
+        attributes.addFlashAttribute("success", "¡Su orden ha sido Creada con exito!");
         return "redirect:/home";
     }
 }
