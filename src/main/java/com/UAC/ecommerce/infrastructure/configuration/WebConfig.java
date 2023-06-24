@@ -50,8 +50,10 @@ public class WebConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/admin").setViewName("admin/home");
         registry.addViewController("/user").setViewName("user/home");
-        registry.addViewController("/user/update").setViewName("edit");
-        registry.addViewController("/user/cart").setViewName("cart");
+        registry.addViewController("/user/update").setViewName("user/edit");
+        registry.addViewController("/user/cart/get-cart").setViewName("/user/cart/cart");
+        registry.addViewController("/admin/products/show").setViewName("/admin/products/show");
+
         // Puedes agregar más rutas y vistas aquí si es necesario
     }
 }
