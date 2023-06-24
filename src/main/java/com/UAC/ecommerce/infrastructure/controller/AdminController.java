@@ -42,7 +42,7 @@ public class AdminController {
         this.orderProductService = orderProductService;
     }
 
-    @GetMapping
+    @GetMapping("home")
     public String home(Model model){
         User user = new User();
         user.setId(1L);
