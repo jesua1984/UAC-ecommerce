@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
-@RequestMapping("/admin/categories")
+@RequestMapping("admin/categories")
 @Slf4j
 public class CategoryController {
     private final CategoryService categoryService;
@@ -29,7 +29,7 @@ public class CategoryController {
         categoryService.saveCategory(category);
         redirectAttributes.addFlashAttribute("mensaje", "Acción realizada con éxito")
                 .addFlashAttribute("clase", "success");
-        return "redirect:/admin/categories/show";
+        return "redirect:admin/categories/show";
     }
     @GetMapping("/show")
     public String showCategory(Model model, @RequestParam(defaultValue = "0") int page,
@@ -39,14 +39,14 @@ public class CategoryController {
         model.addAttribute("categories",categoriesPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", categoriesPage.getTotalPages());
-        return "/admin/categories/show";
+        return "admin/categories/show";
     }
     @GetMapping("/edit/{id}")
     public String editCategory(@PathVariable Long id, Model model){
         Category category = categoryService.getCategoryById(id);
 
         model.addAttribute("category", category);
-        return "/admin/categories/edit";
+        return "admin/categories/edit";
     }
     @GetMapping("/delete/{id}")
     public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes){
@@ -54,12 +54,12 @@ public class CategoryController {
             categoryService.deleteCategoryById(id);
             redirectAttributes.addFlashAttribute("mensaje", "Acción realizada con éxito")
                     .addFlashAttribute("clase", "success");
-            return "redirect:/admin/categories/show";
+            return "redirect:admin/categories/show";
 
         }catch (Exception e){
             redirectAttributes.addFlashAttribute("mensaje", "No es posible Eliminar, existen productos creados con la categoría")
                     .addFlashAttribute("clase", "danger");
-            return "redirect:/admin/categories/show";
+            return "redirect:admin/categories/show";
         }
 
     }
