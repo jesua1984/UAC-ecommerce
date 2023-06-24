@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/products")
+@RequestMapping("admin/products")
 @Slf4j
 public class ProductController {
 
@@ -45,7 +45,7 @@ public class ProductController {
     @GetMapping("/create")
     public String create(Model model){
         showCategory(model);
-        return "/admin/products/create";
+        return "admin/products/create";
     }
 
     @PostMapping("/save-product")
@@ -71,7 +71,7 @@ public class ProductController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", productPage.getTotalPages());
 
-        return "/admin/products/show";
+        return "admin/products/show";
     }
 
     @GetMapping("/edit/{id}")
