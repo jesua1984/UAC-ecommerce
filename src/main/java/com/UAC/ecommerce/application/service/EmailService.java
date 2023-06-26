@@ -64,8 +64,8 @@ public class EmailService {
         try {
             SimpleMailMessage mensaje = new SimpleMailMessage();
 
-            mensaje.setTo("contactopescaderiafidyfer@gmail.com");
-            mensaje.setFrom("contactopescaderiafidyfer@gmail.com");
+            mensaje.setTo("rokero_nato@hotmail.com");
+            mensaje.setFrom("rokero_nato@hotmail.com");
             mensaje.setSubject("Correo de Contacto");
             String contenido = "Nombre: " + contactForm.getName() + "\n";
             contenido += "Email: " + contactForm.getDestinatario() + "\n";
