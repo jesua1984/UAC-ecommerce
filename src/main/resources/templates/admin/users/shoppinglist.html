@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Órdenes por usuario</title>
+  <title>Admin - Órdenes por usuario</title>
   <!-- Bootstrap core CSS -->
   <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
   <!-- Custom styles for this template -->
@@ -21,12 +21,14 @@
 <div class="container">
   <!-- Page Heading/Breadcrumbs -->
   <h1 class="mt-4 mb-3">
-    Spring eCommerce <small>Compras</small>
+
   </h1>
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a th:href="@{/admin}">Home</a></li>
     <li class="breadcrumb-item active">Compras</li>
   </ol>
+
+  <h2>Órdenes de compra por usuario</h2>
   <!-- Blog Post -->
   <div class="card mb-4">
     <div class="card-body">
@@ -43,6 +45,11 @@
             </tr>
             </thead>
             <tbody th:each="order: ${orders}">
+            <tr th:if="${orders.size() == 0}">
+              <td colspan="8">
+                <p>No existe información registrada de órdenes de compra.</p>
+              </td>
+            </tr>
             <tr>
               <td th:text="${order.id}">4555454</td>
               <td th:text="${#temporals.format(order.dateCreated, 'dd-MM-yyyy')}">Fecha de Compra</td>
@@ -52,7 +59,7 @@
             </tr>
             </tbody>
           </table>
-          <nav th:if="${totalPages != null}">
+          <nav th:if="${orders.size() > 0 && totalPages != null}">
             <ul class="pagination justify-content-center">
               <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
                 <a class="page-link" th:href="@{/admin/orders/__${id}__(page=${currentPage - 1}, size=${size})}">Previo</a>

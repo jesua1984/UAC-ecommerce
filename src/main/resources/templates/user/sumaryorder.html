@@ -73,6 +73,11 @@
                     </tr>
                   </thead>
                   <tbody>
+                  <tr th:if="${cart.size() == 0}">
+                      <td colspan="8">
+                          <p>No hay productos agregados para generar orden de compra</p>
+                      </td>
+                  </tr>
                     <tr th:each="item:${cart}">
                      <td th:text="${item.nameProduct}">Nombre</td>
                      <td th:text="${item.price}">Precio</td>

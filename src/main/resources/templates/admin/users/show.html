@@ -67,6 +67,11 @@
       </tr>
     </thead>
     <tbody>
+    <tr th:if="${users.size() == 0}">
+      <td colspan="8">
+        <p>No existe información registrada de usuarios.</p>
+      </td>
+    </tr>
     <tr th:each="user:${users}">
       <td th:text="${user.id}"></td>
       <td th:text="${user.firstName}"></td>
@@ -91,7 +96,7 @@
   </div>
 
   <!-- Pagination -->
-  <nav th:if="${totalPages != null}">
+  <nav th:if="${users.size() > 0 && totalPages != null}">
     <ul class="pagination justify-content-center">
       <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
         <a class="page-link" th:href="@{/admin/users/show(page=${currentPage - 1}, size=${size})}">Previo</a>
@@ -105,8 +110,6 @@
       </li>
     </ul>
   </nav>
-
-
 
 </div>
 <!-- /.container -->

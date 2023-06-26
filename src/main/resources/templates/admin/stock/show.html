@@ -59,6 +59,11 @@
       </tr>
     </thead>
     <tbody>
+    <tr th:if="${stocks.size() == 0}">
+      <td colspan="8">
+        <p>No existe información registrada del inventario.</p>
+      </td>
+    </tr>
       <tr th:each="stock:${stocks}">
         <td th:text="${#temporals.format(stock.dateCreated, 'dd-MM-yyyy')}"></td>
         <td th:text="${stock.unitIn}"></td>
