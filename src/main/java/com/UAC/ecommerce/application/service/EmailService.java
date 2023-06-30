@@ -13,6 +13,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -23,41 +25,58 @@ public class EmailService {
         this.javaMailSender = javaMailSender;
     }
 
- /*   public void enviarCorreoOrdenCreada(String destinatario, Order order, List<OrderProduct> orderProducts) {
+    public void enviarCorreoOrdenCreada(String destinatario, Order order, List<OrderProduct> orderProducts) {
         try {
+
             MimeMessage mensaje = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
-
-            helper.setTo(destinatario);
-            helper.setFrom("contactopescaderiafidyfer@gmail.com");
-            helper.setSubject("Orden Creada - Detalles de la Orden");
-
-            // Construir el contenido del correo con los detalles de la orden y sus productos
-            StringBuilder contenido = new StringBuilder();
-            contenido.append("Estimado/a ").append(order.getUser()).append(",\n\n");
-            contenido.append("Se ha creado exitosamente la siguiente orden:\n\n");
-            contenido.append("Número de Orden: ").append(order.getId()).append("\n");
-            contenido.append("Fecha de Creación: ").append(order.getDateCreated()).append("\n\n");
-            contenido.append("Detalles de la Orden:\n\n");
-
-            orderProducts = order.getOrderProducts();
-            for (OrderProduct orderProduct : orderProducts) {
-                contenido.append("Producto: ").append(orderProduct.getProduct().getName()).append("\n");
-                contenido.append("Cantidad: ").append(orderProduct.getQuantity()).append("\n");
-                contenido.append("Precio Unitario: ").append(orderProduct.getProduct().getPrice()).append("\n\n");
+            LocalDateTime dateCreated = order.getDateCreated();
+            String formattedDate = "";
+            if (dateCreated != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+                formattedDate = dateCreated.format(formatter);
             }
 
-            contenido.append("Precio Total: ").append(order.getTotalOrderPrice()).append("\n\n");
-            contenido.append("Gracias por tu compra.\n");
-            contenido.append("Equipo de la Pescadería Fidyfer");
+            helper.setTo(destinatario);
+            helper.setFrom("rokero_nato@hotmail.com");
+            helper.setSubject("Su orden ha sido generada");
 
-            helper.setText(contenido.toString());
+            // Construir el contenido del correo con los detalles de la orden y sus productos
+
+            StringBuilder contenido = new StringBuilder();
+            contenido.append("<html><body>");
+            contenido.append("<h2>Estimado/a ").append(order.getUser().getFirstName()).append(" ");
+            contenido.append(order.getUser().getLastName()).append("</h2><br/>");
+            contenido.append("<p>Se ha creado exitosamente la siguiente orden de compra:</p><br/>");
+            contenido.append("<p><strong>Número de Orden:</strong> ").append(order.getId()).append("</p>");
+            contenido.append("<p><strong>Fecha de Creación:</strong> ").append(formattedDate).append("</p><br/>");
+            contenido.append("<p><strong>Detalles de la Orden:</strong></p><br/>");
+            contenido.append("<table border='1'>");
+            contenido.append("<tr><th>Producto</th><th>Precio</th><th>Cantidad</th></tr>");
+
+            orderProducts.forEach(
+                    op -> {
+                        contenido.append("<tr>");
+                        contenido.append("<td>").append(op.getProduct().getName()).append("</td>");
+                        contenido.append("<td>").append(op.getProduct().getPrice()).append("</td>");
+                        contenido.append("<td>").append(op.getQuantity()).append("</td>");
+                        contenido.append("</tr>");
+                    }
+            );
+
+            contenido.append("</table><br/>");
+            //contenido.append("Precio Total: ").append(order.getTotalOrderPrice()).append("\n\n");
+            contenido.append("<p>Gracias por tu compra.</p>");
+            contenido.append("<p>Equipo de la Pescadería Fidyfer</p>");
+            contenido.append("</body></html>");
+
+            helper.setText(contenido.toString(), true);
 
             javaMailSender.send(mensaje);
         } catch (MessagingException | MailException e) {
             // Manejo de excepciones en caso de que falle el envío del correo electrónico
         }
-    }*/
+    }
 
 
     public void enviarFormularioDeContacto(ContactForm contactForm) {

@@ -1,5 +1,6 @@
 package com.UAC.ecommerce.application.repository;
 
+import com.UAC.ecommerce.domain.Category;
 import com.UAC.ecommerce.domain.Product;
 import com.UAC.ecommerce.domain.User;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,8 @@ public interface ProductRepository {
 
     Page<Product> getProductsByUser(User user, Pageable pageable);
 
+    Page<Product> getProductsByCategory(Category category, Pageable pageable);
+
     Product getProductById(Long id);
 
     Product saveProduct(Product product);
@@ -23,6 +26,6 @@ public interface ProductRepository {
 
     List<Product> findByNameContainingIgnoreCase(String keyword);
 
-    List<Product> findByCategoryContainingIgnoreCase(String category);
+
 
 }

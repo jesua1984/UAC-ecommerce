@@ -2,68 +2,115 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-
   <title>Página Principal</title>
-
-
   <!-- Bootstrap core CSS -->
   <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-
   <!-- Custom styles for this template -->
   <link th:href="@{css/heroic-features.css}" rel="stylesheet">
-
   <!-- Toastr CSS -->
   <link th:href="@{/vendor/toastr/build/toastr.min.css}" rel="stylesheet">
-
   <style type="text/css">
-  .jumbotron {
-  position: relative;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/pescados1.jpg');
-  background-size: cover;
-  background-position: center;
-  color: white;
-  height: 450px;
-  margin-bottom: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  }
+    .jumbotron {
+      position: relative;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/pescados1.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      height: 450px;
+      margin-bottom: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 
-.container-fluid {
-  height: 100%;
-  padding: 0;
-}
+    .container-fluid {
+      height: 100%;
+      padding: 0;
+    }
+
+    .custom-list-group {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .custom-list-group .list-group-item {
+      border: none;
+    }
+
+    #product_category {
+
+      padding-right: 100px;
+    }
+
+    .category-section {
+      height: 400px; /* Establece la altura deseada para el section */
+      overflow-y: auto; /* Agrega una barra de desplazamiento vertical cuando el contenido excede la altura */
+      position: relative;
+      margin-top:100px;
+      padding-left: 0;
+      padding-right: 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .category-title {
+      position: sticky; /* Hace que el título quede fijo */
+      top: 0; /* Establece la posición fija en la parte superior */
+      background-color: #f8f8f8; /* Ajusta el color de fondo del título si es necesario */
+      padding: 10px; /* Ajusta el espaciado interno del título si es necesario */
+    }
+
+    /* Ajustes adicionales */
+    .row {
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .category-content {
+      padding: 0 15px;
+      margin-top: 10px; /* Ajusta el margen superior para dejar espacio al título fijo */
+
+    }
+
+
   </style>
-
-
 </head>
 
 <body>
+<!-- Navigation -->
+<div th:insert="~{user/template_user::header}" th:if="${id==null}"></div>
+<div th:insert="~{user/template_user::userlogged}" th:unless="${id==null}"></div>
+<!-- Jumbotron Header -->
+<div class="container-fluid">
+  <!-- Aquí va el contenido de la página -->
+  <header class="jumbotron my-4">
+    <h1 class="display-3">Tienda Virtual</h1>
+    <p class="lead">Pescadería Fidyfer</p>
+  </header>
+</div>
 
-  <!-- Navigation -->
-  <div th:insert = "~{user/template_user::header}" th:if="${id==null}"></div>
+<!-- Page Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+      <section id="product_category" class="category-section">
+        <div class="category-title">
+          <p>Categorías de producto</p>
+        </div>
+        <div class="category-content">
+          <ul class="product-categories custom-list-group" id="category-list" th:each="category:${categories}">
+            <li><a th:text="${category.name}" th:href="@{/home/category-product/{id} (id=${category.id})}"><p Categoria del producto></a></p></li>
+          </ul>
+        </div>
+      </section>
+    </div>
 
-  <div th:insert = "~{user/template_user::userlogged}" th:unless="${id==null}"></div>
-
-  <!-- Jumbotron Header -->
-  <div class="container-fluid">
-    <!-- Aquí va el contenido de la página -->
-    <header class="jumbotron my-4">
-      <h1 class="display-3">Tienda Virtual</h1>
-      <p class="lead">Pescadería Fidyfer</p>
-    </header>
-  </div>
-
-  <!-- Page Content -->
-    <div class="container">
-
-
+    <!-- Productos -->
+    <div class="col-lg-9">
       <!-- Formulario de búsqueda -->
       <div class="row mb-3">
         <div class="col-md-12">
@@ -76,26 +123,35 @@
         </div>
       </div>
 
-      <!-- Page Features -->
+      <!-- Productos -->
       <div class="row text-center">
-
-        <div class="col-lg-3 col-md-6 mb-4" th:each="product:${products}">
-          <div class="card h-100">
-            <img class="card-img-top" th:src="@{/images/{img} (img = ${product.image})}" alt="">
-            <div class="card-body">
-              <p class="card-text" th:text="${product.name}">Nombre del producto.</p>
-              <p class="card-text" th:text="${product.price}"> $ Precio del producto.</p>
-            </div>
-            <div class="card-footer">
-              <a th:href="@{/home/product-detail/{id} (id=${product.id})}" class="btn btn-success">Ver producto</a>
+        <div class="col-lg-12" style="position: sticky; top: 100px;">
+          <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4" th:each="product:${products}">
+              <div class="card h-100">
+                <a th:href="@{/home/product-detail/{id} (id=${product.id})}">
+                <img class="card-img-top" th:src="@{/images/{img} (img = ${product.image})}" alt="imagen producto">
+                </a>
+                <div class="card-body">
+                  <p class="card-text" th:text="${product.name}">Nombre del producto.</p>
+                  <p class="card-text" th:text="${product.price}"> $ Precio del producto.</p>
+                </div>
+                <div class="card-footer">
+                  <a th:href="@{/home/product-detail/{id} (id=${product.id})}" class="btn btn-success">Ver producto</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+        <tr th:if="${products.size() <= 0}">
+          <td colspan="8">
+            <p>No existe información registrada de productos.</p>
+          </td>
+        </tr>
       </div>
-      <!-- /.row -->
 
-      <!-- Pagination -->
-      <nav th:if="${totalPages != null}">
+      <!-- Paginación -->
+      <nav th:if="${products.size() > 0 && totalPages != null}">
         <ul class="pagination justify-content-center">
           <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
             <a class="page-link" th:href="@{/home(page=${currentPage - 1}, pageSize=${pageSize})}">Previo</a>
@@ -109,39 +165,62 @@
         </ul>
       </nav>
 
-      <nav th:if="${totalPages == null}">
+      <nav th:if="${products.size() <= 0 OR totalPages == null}">
         <ul class="pagination justify-content-center">
           <li class="page-item">
             <a class="page-link" th:href="@{/home}">Volver</a>
           </li>
-
         </ul>
       </nav>
     </div>
-    <!-- /.container -->
-
-  <!-- Success Message -->
-  <div id="success-message" th:if="${success!= null}">
-    <span th:text="${success}"></span>
   </div>
+</div>
 
-    <!-- Footer -->
-  <div th:insert = "~{user/template_user::footer}"></div>
+<!-- Success Message -->
+<div id="success-message" th:if="${success!= null}">
+  <span th:text="${success}"></span>
+</div>
 
+<!-- Footer -->
+<div th:insert="~{user/template_user::footer}"></div>
 
-  <!-- Bootstrap core JavaScript -->
-    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{/vendor/toastr/build/toastr.min.js}"></script>
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/vendor/toastr/build/toastr.min.js}"></script>
+<script>
+    $(document).ready(function () {
+      if ($('#success-message').length > 0) {
+        toastr.success($('#success-message').text());
+      }
+    });
 
-  <script>
-  $(document).ready(function () {
-    if ($('#success-message').length > 0) {
-      toastr.success($('#success-message'));
+    // Lógica para cargar más categorías
+  window.addEventListener('scroll', function() {
+    // Verificar si se ha llegado al final de la página
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      // Realizar una solicitud AJAX o fetch para obtener más datos de categorías del servidor
+      // y agregarlos dinámicamente a la lista de categorías
+      fetch('/obtener-categorias?pagina=2')
+        .then(response => response.json())
+        .then(data => {
+          // Obtener referencia al elemento de lista de categorías
+          const productCategories = document.querySelector('.product-categories');
+
+          // Agregar las nuevas categorías a la lista
+          data.forEach(category => {
+            var newCategory = document.createElement('li');
+            newCategory.innerHTML = '<p>' + category.name + '</p>';
+            productCategories.appendChild(newCategory);
+          });
+        });
     }
   });
+
 </script>
 
-  </body>
+</body>
 
-  </html>
+</html>
+
+

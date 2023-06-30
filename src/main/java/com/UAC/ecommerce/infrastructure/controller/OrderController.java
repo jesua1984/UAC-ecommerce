@@ -83,8 +83,6 @@ public class OrderController {
             orderProducts.add(new OrderProduct(productService.getProductById(itemCart.getIdProduct()),itemCart.getQuantity(),order));
         }
 
-        log.info("productos de la orden: {}", cartService.getItemCarts());
-
         //guardar
         orderProducts.forEach(
                 op->{
@@ -99,12 +97,9 @@ public class OrderController {
 
                 }
         );
-
-
-        //emailService.enviarCorreoOrdenCreada("jesua.lindado@gmail.com",order, cartService.getItemCarts());
-
         //vaciar carrito
         cartService.removeAllItemsCart();
+        emailService.enviarCorreoOrdenCreada(user.getEmail(),order, orderProducts);
         attributes.addFlashAttribute("id", httpSession.getAttribute("iduser").toString());
         attributes.addFlashAttribute("success", "¡Su orden ha sido Creada con exito!");
         return "redirect:/home";

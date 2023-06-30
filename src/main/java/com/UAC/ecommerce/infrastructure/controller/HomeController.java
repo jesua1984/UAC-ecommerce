@@ -1,5 +1,6 @@
 package com.UAC.ecommerce.infrastructure.controller;
 
+import com.UAC.ecommerce.application.service.CategoryService;
 import com.UAC.ecommerce.application.service.ProductService;
 import com.UAC.ecommerce.application.service.StockService;
 import com.UAC.ecommerce.domain.Category;
@@ -24,18 +25,24 @@ public class HomeController {
     private final ProductService productService;
     private  final StockService stockService;
 
-    public HomeController(ProductService productService, StockService stockService) {
+    private final CategoryService categoryService;
+
+
+    public HomeController(ProductService productService, StockService stockService, CategoryService categoryService) {
         this.productService = productService;
         this.stockService = stockService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping
     public String home(Model model, HttpSession httpSession, @RequestParam(defaultValue = "0") int page,
-                       @RequestParam(defaultValue = "20") int pageSize){
+                       @RequestParam(defaultValue = "20") int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Product> productPage = productService.getProductsPage(page, pageSize);
+        Iterable<Category> categories = categoryService.getCategories();
 
         model.addAttribute("products", productPage.getContent());
+        model.addAttribute("categories", categories); // Agrega las categorías al modelo
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", productPage.getTotalPages());
         model.addAttribute("totalItems", productPage.getTotalElements());
@@ -47,7 +54,40 @@ public class HomeController {
         }
 
         return "home";
+    }
 
+    @GetMapping("/category-product/{id}")
+    public String  showProductCategory(Model model, @PathVariable Long id, @RequestParam(defaultValue = "0") int page,
+                                       @RequestParam(defaultValue = "10") int size){
+
+        Category category = new Category();
+        category.setId(id);
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> productPage = productService.getProductsByCategory(category,pageable);
+        Iterable<Category> categories = categoryService.getCategories();
+        model.addAttribute("categories", categories); // Agrega las categorías al modelo
+        model.addAttribute("products",productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        return "home";
+    }
+
+    @GetMapping("/index")
+    public String index(Model model,HttpSession httpSession, @RequestParam(defaultValue = "0") int page,
+                        @RequestParam(defaultValue = "20") int pageSize){
+      /*  Category category = new Category();
+        category.setName();
+
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Product> productPage = productService.getProductsByCategoryPage(page, pageSize);*/
+        try {
+            model.addAttribute("id", httpSession.getAttribute("iduser").toString());
+        } catch (Exception e) {
+            // Manejar excepción
+        }
+
+
+        return "index";
     }
 
     @GetMapping("/contact")
@@ -60,19 +100,6 @@ public class HomeController {
 
         return "contact";
     }
-
-    @GetMapping("/index")
-    public String index(Model model,HttpSession httpSession){
-        try {
-            model.addAttribute("id", httpSession.getAttribute("iduser").toString());
-        } catch (Exception e) {
-            // Manejar excepción
-        }
-
-
-        return "index";
-    }
-
     @GetMapping("/privacidad")
     public String privacidad(Model model,HttpSession httpSession){
         try {
@@ -136,12 +163,13 @@ public class HomeController {
 
     }
 
+
     @PostMapping("/search")
     public String searchProducts(@RequestParam("keyword") String keyword, Model model) {
 
          List<Product> products = productService.findProductsByName(keyword);
 
-        //List<Product> products = productService.findProductsByCategory(keyword);
+
 
         model.addAttribute("products", products);
         model.addAttribute("currentPage", null);  // Reiniciar a la primera página

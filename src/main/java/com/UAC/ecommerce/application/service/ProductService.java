@@ -1,6 +1,7 @@
 package com.UAC.ecommerce.application.service;
 
 import com.UAC.ecommerce.application.repository.ProductRepository;
+import com.UAC.ecommerce.domain.Category;
 import com.UAC.ecommerce.domain.Product;
 
 import com.UAC.ecommerce.domain.User;
@@ -32,6 +33,10 @@ public class ProductService {
 
     public Page<Product> getProductsByUser(User user, Pageable pageable){
         return productRepository.getProductsByUser(user, pageable);
+    }
+
+    public Page<Product> getProductsByCategory(Category category, Pageable pageable){
+        return productRepository.getProductsByCategory(category, pageable);
     }
 
     public Product getProductById(Long id){
@@ -79,14 +84,8 @@ public class ProductService {
         return productRepository.findAll(pageable);
     }
 
+
     public List<Product> findProductsByName(String keyword) {
         return productRepository.findByNameContainingIgnoreCase(keyword);
     }
-
-    public List<Product> findProductsByCategory(String category) {
-        return productRepository.findByCategoryContainingIgnoreCase(category);
-    }
-
-
-
 }
