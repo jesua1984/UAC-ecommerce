@@ -116,4 +116,22 @@ public class AdminController {
         // Redirigir a la página de detalles de la orden
         return "redirect:/admin/orders/all";
     }
+
+    // Función para obtener la clase CSS según el estado de la orden
+    public String getStatusColorClass(String orderStatus) {
+        switch (orderStatus) {
+            case "Creada":
+                return "estado-creada";
+            case "Facturada":
+                return "estado-facturada";
+            case "Enviada":
+                return "estado-enviada";
+            case "Entregada-Cobrada":
+                return "estado-entregada-cobrada";
+            case "Cancelada":
+                return "estado-cancelada";
+            default:
+                return "";
+        }
+    }
 }

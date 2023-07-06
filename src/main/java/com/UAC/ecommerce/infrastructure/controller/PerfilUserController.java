@@ -46,28 +46,20 @@ public class PerfilUserController {
     public String createUser(User user, RedirectAttributes redirectAttributes, Model model) {
         log.info("Nombre del usuario: {}",user);
         userService.saveUser(user);
+        model.addAttribute("success", "Usuario actualizado con éxito");
 
-        model.addAttribute("mensaje", "Usuario guardado exitosamente.");
-        model.addAttribute("clase", "success");
 
         return "user/edit";
     }
 
     @PostMapping("/change-password")
-    public String savePassword(UserDto userDto, Model model, BindingResult bindingResult) {
+    public String savePassword(User user, Model model, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
 
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userService.saveUser(user);
 
-        if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
-            bindingResult.rejectValue("confirmPassword", "error.confirmPassword", "");
-            model.addAttribute("mensaje", "Las contraseñas no coinciden");
-            model.addAttribute("clase", "danger");
-        }
-
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        userService.saveUser(userDto.userDtoToUser());
-        model.addAttribute("mensaje", "Usuario guardado exitosamente.");
-        model.addAttribute("clase", "success");
+        model.addAttribute("success", "Contraseña actualizada con éxito");
 
         return "user/edit";
     }

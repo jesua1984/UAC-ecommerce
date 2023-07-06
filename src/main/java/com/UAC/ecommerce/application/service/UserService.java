@@ -1,17 +1,15 @@
 package com.UAC.ecommerce.application.service;
 
 import com.UAC.ecommerce.application.repository.UserRepository;
-import com.UAC.ecommerce.domain.Product;
 import com.UAC.ecommerce.domain.User;
 import com.UAC.ecommerce.domain.UserType;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
-import java.util.Optional;
 
 public class UserService {
     private final UserRepository userRepository;
+
+
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -50,5 +48,6 @@ public class UserService {
     public User saveUser(User user){
         return userRepository.saveUser(user);
     }
+
 
 }

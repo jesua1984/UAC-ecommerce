@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Restablecer contraseña</title>
+
+
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+  <link th:href="@{/vendor/toastr/build/toastr.min.css}" rel="stylesheet">
+
+
+  <style type="text/css">
+    .mensaje{
+      margin-top:150px;
+      margin-bottom:100px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #00adef;">
+  <div class="container">
+
+    <a th:href="@{/home}" class="navbar-brand">
+      <img th:src="@{/images/logo.png}" width="60" height="60" alt="Logo">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a class="nav-link text-white font-weight-bold" th:href="@{/home/index}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white font-weight-bold" th:href="@{/home/us}">Nosotros</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white font-weight-bold" th:href="@{/home}">Tienda Virtual</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white font-weight-bold" th:href="@{/home/contact}">Contacto</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link text-white bi bi-cart" th:href="@{/user/cart/get-cart}">
+            <img src="/images/carrito.png" alt="carrito">
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white bi bi-door-open font-weight-bold" th:href="@{/login}">
+            <img src="/images/sesion.png" alt="sesion">
+            Iniciar Sesión
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!-- Page Content -->
+<div class="container mt-4">
+
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h2>Restablecer Contraseña</h2>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div th:classappend="'alert-' + (${clase != null} ? ${clase} : 'info')" th:if="${mensaje != null}">
+    <p th:text="${mensaje}" class="alert"></p>
+  </div>
+
+  <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+    <p th:text="${errorMessage}"></p>
+  </div>
+
+  <div class="mensaje">
+    <p>Se ha enviado un correo electrónico de restablecimiento de contraseña a la dirección de correo electrónico de tu cuenta,
+      pero puede llevar varios minutos que aparezca en tu bandeja de entrada. Por favor, espera al menos 10 minutos antes de intentar otro restablecimiento.</p>
+
+  </div>
+
+</div>
+<!-- /.container -->
+
+<!-- Success Message -->
+<div id="success-message" th:if="${success!= null}" style="visibility: hidden">
+  <span th:text="${success}"></span>
+</div>
+
+<!-- Footer -->
+<div th:insert="~{user/template_user::footer}"></div>
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/vendor/toastr/build/toastr.min.js}"></script>
+
+<script>
+    $(document).ready(function () {
+      if ($('#success-message').length > 0) {
+        toastr.success($('#success-message').text());
+      }
+    });
+</script>
+
+
+
+</body>
+
+</html>
