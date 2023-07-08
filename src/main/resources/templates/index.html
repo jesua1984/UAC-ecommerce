@@ -136,14 +136,7 @@
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
 <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/vendor/toastr/build/toastr.min.js}"></script>
-
-<script>
-  $(document).ready(function () {
-    if ($('#success-message').length > 0) {
-      toastr.success($('#success-message'));
-    }
-  });
-</script>
+<script th:src="@{/vendor/js/js-custom.js}"></script>
 
 </body>
 

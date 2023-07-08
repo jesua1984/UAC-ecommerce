@@ -11,6 +11,8 @@
     <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+    <link th:href="@{/vendor/toastr/build/toastr.min.css}" rel="stylesheet">
+
     <style>
         .error {
             color: red;
@@ -139,7 +141,7 @@
             </div>
             <div class="col-sm-6">
                 <label for="cellphone">Teléfono:</label>
-                <input type="tel" class="form-control" id="cellphone" name="cellphone"
+                <input type="text" class="form-control" id="cellphone" name="cellphone"
                        placeholder="Ingrese su teléfono" autocomplete="off" required onkeypress="return valideKey(event);">
                 <p th:if="${#fields.hasErrors('cellphone')}" th:errors="*{cellphone}" th:errorclass="error"></p>
             </div>
@@ -187,7 +189,7 @@
         </div>
 
         <div class="form-group">
-            <button type="submit" class="btn btn-success">Guardar</button>
+            <button type="submit" class="btn btn-success" id="submitBtn">Guardar</button>
         </div>
     </form>
 
@@ -203,59 +205,7 @@
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
 <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/vendor/bootstrap/js/main.js}"></script>
-
-<script>
-    $(document).ready(function () {
-        $('#showPassword').click(function () {
-            var passwordField = $('#password');
-            var confirmPasswordField = $('#confirmPassword');
-            if ($(this).is(':checked')) {
-                passwordField.attr('type', 'text');
-                confirmPasswordField.attr('type', 'text');
-            } else {
-                passwordField.attr('type', 'password');
-                confirmPasswordField.attr('type', 'password');
-            }
-        });
-    });
-
-    function valideKey(evt){
-
-    // code is the decimal ASCII representation of the pressed key.
-    var code = (evt.which) ? evt.which : evt.keyCode;
-
-    if(code==8) { // backspace.
-      return true;
-    } else if(code>=48 && code<=57) { // is a number.
-      return true;
-    } else{ // other keys.
-      return false;
-    }
-}
-
-function checkPasswordStrength(password) {
-  var conditions = {
-    uppercase: /[A-Z]/.test(password),
-    specialchar: /[@#$%&*.]/.test(password),
-    lettercount: /[a-zA-Z]{5,}/.test(password),
-    numbercount: (password.match(/\d/g) || []).length >= 2
-  };
-
-  var passwordConditions = document.getElementById("password-conditions");
-
-  for (var condition in conditions) {
-    var conditionElement = document.getElementById(condition);
-
-    if (conditions[condition]) {
-      conditionElement.classList.add("valid");
-      conditionElement.classList.remove("invalid");
-    } else {
-      conditionElement.classList.add("invalid");
-      conditionElement.classList.remove("valid");
-    }
-  }
-}
-</script>
+<script th:src="@{/vendor/js/js-custom.js}"></script>
 
 
 </body>

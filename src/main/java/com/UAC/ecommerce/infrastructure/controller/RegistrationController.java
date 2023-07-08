@@ -81,8 +81,7 @@ public class RegistrationController {
 
         userDto.setUserStatus("ACTIVO");
         registrationService.register(userDto.userDtoToUser());
-        redirectAttributes.addFlashAttribute("mensaje", "Usuario creado correctamente")
-                .addFlashAttribute("clase", "success");
+        redirectAttributes.addFlashAttribute("success", "Usuario creado correctamente");
         String email = userDto.getEmail();
         emailService.enviarCorreoBienvenida(email);
         return "redirect:/login";

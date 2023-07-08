@@ -15,6 +15,7 @@ public class LoginService {
     public boolean existUser(String email){
         try {
             User user = userService.findByEmail(email);
+            user.getUserStatus();
         }catch (Exception e){
             return false;
         }

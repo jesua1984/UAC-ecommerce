@@ -27,7 +27,7 @@ public class LoginController {
     @GetMapping
     public String login(@RequestParam(value = "error", required = false) String error, Model model) {
         if (error != null) {
-            model.addAttribute("errorMessage", "Usuario y/o contraseña incorrecta");
+            model.addAttribute("error", "Usuario y/o contraseña incorrecta");
         }
         return "login";
     }

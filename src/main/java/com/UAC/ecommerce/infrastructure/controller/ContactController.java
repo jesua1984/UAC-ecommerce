@@ -28,9 +28,7 @@ public class ContactController {
         contactForm.setMensaje(mensaje);
 
         emailService.enviarFormularioDeContacto(contactForm);
-        redirectAttributes.addFlashAttribute("mensaje", "Su mensaje se envió Correctamente")
-                .addFlashAttribute("clase", "success");
-
+        redirectAttributes.addFlashAttribute("success", "Su mensaje se envió Correctamente");
         return "redirect:/home/contact";
     }
 

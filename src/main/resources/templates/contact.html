@@ -130,9 +130,6 @@
 
 
     <div class="col-md-6">
-      <div th:classappend="'alert-' + (${clase != null} ? ${clase} : 'info')" th:if="${mensaje != null}">
-        <p th:text="${mensaje}" class="alert"></p>
-      </div>
       <div class="contact-form">
         <div class="card bg-light-blue text-white">
           <div class="card-body">
@@ -168,6 +165,11 @@
   </div>
 </div>
 
+<!-- Success Message -->
+<div id="success-message" th:if="${success!= null}">
+  <span th:text="${success}"></span>
+</div>
+
 <!-- Footer -->
 <div th:insert="~{user/template_user::footer}"></div>
 
@@ -175,6 +177,8 @@
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
 <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/vendor/toastr/build/toastr.min.js}"></script>
+<script th:src="@{/vendor/js/js-custom.js}"></script>
+
 </body>
 
 </html>

@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Spring eCommerce</title>
+  <title>Resumen de la orden</title>
 
 
   <!-- Bootstrap core CSS -->
@@ -107,6 +107,10 @@
   </div>
   <!-- /.container -->
 
+  <!-- Success Message -->
+  <div id="error-message" th:if="${error!= null}" style="visibility: hidden">
+      <span th:text="${error}"></span>
+  </div>
   <!-- Footer -->
   <div th:insert = "~{user/template_user::footer}"></div>
 
@@ -114,6 +118,8 @@
   <!-- Bootstrap core JavaScript -->
   <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
   <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/vendor/js/js-custom.js}"></script>
+
 
 </body>
 
