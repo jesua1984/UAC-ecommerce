@@ -177,8 +177,13 @@
 </div>
 
 <!-- Success Message -->
-<div id="success-message" th:if="${success!= null}">
+<div id="success-message" th:if="${success!= null}" style="visibility: hidden">
   <span th:text="${success}"></span>
+</div>
+
+<!-- error Message -->
+<div id="error-message" th:if="${error!= null}" style="visibility: hidden">
+  <span th:text="${error}"></span>
 </div>
 
 <!-- Footer -->
@@ -188,36 +193,7 @@
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
 <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/vendor/toastr/build/toastr.min.js}"></script>
-<script>
-    $(document).ready(function () {
-      if ($('#success-message').length > 0) {
-        toastr.success($('#success-message').text());
-      }
-    });
-
-    // Lógica para cargar más categorías
-  window.addEventListener('scroll', function() {
-    // Verificar si se ha llegado al final de la página
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-      // Realizar una solicitud AJAX o fetch para obtener más datos de categorías del servidor
-      // y agregarlos dinámicamente a la lista de categorías
-      fetch('/obtener-categorias?pagina=2')
-        .then(response => response.json())
-        .then(data => {
-          // Obtener referencia al elemento de lista de categorías
-          const productCategories = document.querySelector('.product-categories');
-
-          // Agregar las nuevas categorías a la lista
-          data.forEach(category => {
-            var newCategory = document.createElement('li');
-            newCategory.innerHTML = '<p>' + category.name + '</p>';
-            productCategories.appendChild(newCategory);
-          });
-        });
-    }
-  });
-
-</script>
+<script th:src="@{/vendor/js/js-custom.js}"></script>
 
 </body>
 

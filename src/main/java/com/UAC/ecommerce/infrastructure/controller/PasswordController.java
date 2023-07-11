@@ -40,18 +40,24 @@ public class PasswordController {
     @PostMapping("/forgot-password")
     public String forgotPassword(@RequestParam("email") String email, Model model) {
         // Generar un enlace único para el usuario
-        LocalDateTime expirationTime = LocalDateTime.now().plusMinutes(1);
-        String recoveryLink = generateRecoveryLink(email, expirationTime);
+        User user = userService.findByEmail(email);
+        if (user != null){
+            LocalDateTime expirationTime = LocalDateTime.now().plusMinutes(3);
+            String recoveryLink = generateRecoveryLink(email, expirationTime);
 
-        // Enviar el correo electrónico al usuario
-        String subject = "Recuperación de contraseña";
-        String body = "Para restablecer tu contraseña, haz clic en el siguiente enlace: " + recoveryLink;
-        emailService.sendEmail(email, subject, body);
+            // Enviar el correo electrónico al usuario
+            String subject = "Recuperación de contraseña";
+            String body = "Para restablecer tu contraseña, haz clic en el siguiente enlace: \n\n" + recoveryLink;
+            emailService.sendEmail(email, subject, body);
 
-        // Agregar un mensaje de éxito en el modelo para mostrar al usuario
-        model.addAttribute("success", "Correo electrónico enviado con éxito.");
+            // Agregar un mensaje de éxito en el modelo para mostrar al usuario
+            model.addAttribute("success", "Correo electrónico enviado con éxito.");
+            return "send-email-success-page";
 
-        return "send-email-success-page";
+        }
+
+        model.addAttribute("error", "Correo electrónico desconocido.");
+        return "forgot-password-page";
     }
 
     private String generateRecoveryLink(String email, LocalDateTime expirationTime) {
@@ -88,6 +94,7 @@ public class PasswordController {
 
         if (currentTime.isAfter(expirationTime)) {
             // El enlace ha expirado, puedes mostrar un mensaje de error o redirigir a una página de error
+            model.addAttribute("error", "El enlace se ha vencido, solicite cambio de contraseña nuevamente.");
             return "login";
         } else {
             // El enlace aún es válido, mostrar la página de restablecimiento de contraseña

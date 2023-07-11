@@ -97,4 +97,25 @@ public class UserController {
         }
         return "redirect:/admin/users/show";
     }
+
+    @GetMapping("/activar/{id}")
+    public String activateUser(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            User user = userService.getUserById(id);
+            if (user.getUserStatus().equals("ACTIVO")){
+                redirectAttributes.addFlashAttribute("mensaje", "El usuario ya se encuentra activo")
+                        .addFlashAttribute("clase", "danger");
+
+            } else {
+                user.setUserStatus("ACTIVO");
+                userService.saveUser(user);
+                redirectAttributes.addFlashAttribute("mensaje", "Usuario Dado de alta correctamente")
+                        .addFlashAttribute("clase", "success");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensaje", "Imposible realizar acción requerida")
+                    .addFlashAttribute("clase", "danger");
+        }
+        return "redirect:/admin/users/show";
+    }
 }

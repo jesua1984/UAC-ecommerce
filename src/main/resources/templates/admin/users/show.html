@@ -83,7 +83,8 @@
       <td  style="text-align: center;">
         <div class="btn-group btn-group-sm">
           <a class="btn btn-warning" th:href="@{/admin/users/edit/{id} (id = ${user.id}) }">Editar</a>
-          <a class="btn btn-danger" th:href="@{/admin/users/delete/{id} (id = ${user.id})}">Baja</a>
+          <a th:if="${user.userStatus == 'ACTIVO'}" class="btn btn-danger" th:onclick="eliminar([[${user.id}]])">Baja</a>
+          <a th:if="${user.userStatus == 'INACTIVO'}" class="btn btn-success" th:href="@{/admin/users/activar/{id} (id = ${user.id}) }">Alta</a>
           <a class="btn btn-primary" th:href="@{/admin/orders/{id} (id = ${user.id}) }">Órdenes</a>
         </div>
       </td>
@@ -127,6 +128,9 @@
 <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
   <!-- Toastr JavaScript -->
   <script th:src="@{/vendor/toastr/build/toastr.min.js}"></script>
+  <script th:src="@{/vendor/js/js-custom.js}"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
 
 </body>

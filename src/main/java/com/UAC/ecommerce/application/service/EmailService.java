@@ -4,22 +4,17 @@ import com.UAC.ecommerce.domain.ContactForm;
 import com.UAC.ecommerce.domain.Order;
 import com.UAC.ecommerce.domain.OrderProduct;
 import jakarta.mail.*;
-import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Properties;
 
 
 public class EmailService {
@@ -45,7 +40,7 @@ public class EmailService {
             }
 
             helper.setTo(destinatario);
-            helper.setFrom("rokero_nato@hotmail.com");
+            helper.setFrom("pescaderiafidyfer@outlook.com");
             helper.setSubject("Su orden ha sido generada");
 
             // Construir el contenido del correo con los detalles de la orden y sus productos
@@ -90,8 +85,8 @@ public class EmailService {
         try {
             SimpleMailMessage mensaje = new SimpleMailMessage();
 
-            mensaje.setTo("rokero_nato@hotmail.com");
-            mensaje.setFrom("rokero_nato@hotmail.com");
+            mensaje.setTo("pescaderiafidyfer@outlook.com");
+            mensaje.setFrom("pescaderiafidyfer@outlook.com");
             mensaje.setSubject("Correo de Contacto");
             String contenido = "Nombre: " + contactForm.getName() + "\n";
             contenido += "Email: " + contactForm.getDestinatario() + "\n";
@@ -112,7 +107,7 @@ public class EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
 
             helper.setTo(email);
-            helper.setFrom("contactopescaderiafidyfer@gmail.com");
+            helper.setFrom("pescaderiafidyfer@outlook.com");
             helper.setSubject("Se ha creado tu cuenta en la Pescadería Fidyfer");
 
             String contenido = cargarContenidoHTML("/bienvenida.html");
@@ -133,7 +128,7 @@ public class EmailService {
     public void sendEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
-        message.setFrom("rokero_nato@hotmail.com");
+        message.setFrom("pescaderiafidyfer@outlook.com");
         message.setSubject(subject);
         message.setText(body);
         javaMailSender.send(message);
