@@ -19,6 +19,8 @@
 
   <!-- Toastr CSS -->
   <link th:href="@{/vendor/toastr/build/toastr.min.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+
 
   <style type="text/css">
   .jumbotron {
@@ -80,21 +82,21 @@
   <div class="row text-center d-flex justify-content-center">
     <div class="col-lg-2 col-md-6 mb-4">
       <div class="card h-100">
-        <a href="URL_DE_LA_PRIMERA_PAGINA_DESTINO">
+        <a th:href="@{/home}">
           <img class="card-img-top shadow-effect" src="/images/categoria_pescado.png" alt="">
         </a>
       </div>
     </div>
     <div class="col-lg-2 col-md-6 mb-4">
       <div class="card h-100">
-        <a href="URL_DE_LA_SEGUNDA_PAGINA_DESTINO">
+        <a th:href="@{/home}">
           <img class="card-img-top shadow-effect" src="/images/categoria_marisco.png" alt="">
         </a>
       </div>
     </div>
     <div class="col-lg-2 col-md-6 mb-4">
       <div class="card h-100">
-        <a href="URL_DE_LA_SEGUNDA_PAGINA_DESTINO">
+        <a th:href="@{/home}">
           <img class="card-img-top shadow-effect" src="/images/categoria_tuberculo.png" alt="">
         </a>
       </div>
