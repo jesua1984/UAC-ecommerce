@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -52,7 +53,7 @@ public class OrderController {
     }
 
     @GetMapping("/create-order")
-    public String createOrder(RedirectAttributes attributes, HttpSession httpSession){
+    public String createOrder(RedirectAttributes attributes, HttpSession httpSession, BindingResult bindingResult){
         log.info("create order..");
         log.info("id user desde la variable de sesion: {}",httpSession.getAttribute("iduser").toString());
 
@@ -64,6 +65,17 @@ public class OrderController {
             // Carrito vacío, mostrar mensaje de error o redirigir a una página de error
             attributes.addFlashAttribute("message", "El carrito está vacío. No se puede crear la orden.");
             return "redirect:/user/order/sumary-order";
+        }
+        int i= 0;
+        for (ItemCart itemCart : cartService.getItemCarts()){
+
+            List<Stock> stockList = stockService.getStockByProduct(productService.getProductById(itemCart.getIdProduct()));
+            Integer balance = stockList.get(stockList.size()-1).getBalance();
+            //acá se verifica si hay suficiente stock del producto.
+            if ((itemCart.getQuantity() > balance) || (balance == 0)){
+                attributes.addFlashAttribute("message", "Cantidad no disponible en el producto "+ itemCart.getNameProduct()+" vuelva a agregar el producto");
+                return "redirect:/user/order/sumary-order";
+            }
         }
 
         //order

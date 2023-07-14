@@ -172,6 +172,27 @@ function eliminar(id){
     });
 }
 
+<!-- Agrega este código JavaScript/jQuery después de cargar jQuery y Bootstrap JavaScript -->
+
+  $(document).ready(function() {
+    $('.increment-btn').click(function(e) {
+      e.preventDefault();
+      var input = $(this).closest('.input-group').find('.quantity-input');
+      var currentValue = parseInt(input.val());
+      input.val(currentValue + 1);
+    });
+
+    $('.decrement-btn').click(function(e) {
+      e.preventDefault();
+      var input = $(this).closest('.input-group').find('.quantity-input');
+      var currentValue = parseInt(input.val());
+      if (currentValue > 1) {
+        input.val(currentValue - 1);
+      }
+    });
+  });
+
+
 
 
 

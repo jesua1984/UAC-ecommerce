@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface StockRepository {
     Stock saveStock(Stock stock);
-        List<Stock> getStockByProduct(Product Product);
+    List<Stock> getStockByProduct(Product Product);
+
 }

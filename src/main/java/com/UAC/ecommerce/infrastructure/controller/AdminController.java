@@ -62,6 +62,7 @@ public class AdminController {
         for (Order order : orders) {
             Order orderWithProducts = getOrdersProducts(order);
             newListOrder.add(orderWithProducts);
+
         }
         model.addAttribute("id",Long.valueOf(id).toString());
         model.addAttribute("orders", newListOrder);

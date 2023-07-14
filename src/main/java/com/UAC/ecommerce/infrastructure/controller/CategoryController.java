@@ -54,7 +54,7 @@ public class CategoryController {
             categoryService.deleteCategoryById(id);
             redirectAttributes.addFlashAttribute("mensaje", "Acción realizada con éxito")
                     .addFlashAttribute("clase", "success");
-            return "redirect:admin/categories/show";
+            return "redirect:/admin/categories/show";
 
         }catch (Exception e){
             redirectAttributes.addFlashAttribute("mensaje", "No es posible Eliminar, existen productos creados con la categoría")

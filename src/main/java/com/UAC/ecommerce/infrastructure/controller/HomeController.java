@@ -27,7 +27,6 @@ public class HomeController {
 
     private final CategoryService categoryService;
 
-
     public HomeController(ProductService productService, StockService stockService, CategoryService categoryService) {
         this.productService = productService;
         this.stockService = stockService;
@@ -75,17 +74,11 @@ public class HomeController {
     @GetMapping("/index")
     public String index(Model model,HttpSession httpSession, @RequestParam(defaultValue = "0") int page,
                         @RequestParam(defaultValue = "20") int pageSize){
-      /*  Category category = new Category();
-        category.setName();
-
-        Pageable pageable = PageRequest.of(page, pageSize);
-        Page<Product> productPage = productService.getProductsByCategoryPage(page, pageSize);*/
         try {
             model.addAttribute("id", httpSession.getAttribute("iduser").toString());
         } catch (Exception e) {
             // Manejar excepción
         }
-
 
         return "index";
     }
@@ -124,8 +117,6 @@ public class HomeController {
         return "entregas";
     }
 
-
-
     @GetMapping("/us")
     public String us(Model model,HttpSession httpSession){
         try {
@@ -152,8 +143,6 @@ public class HomeController {
             model.addAttribute("product",productService.getProductById(id));
             model.addAttribute("stock",lastBalance);
         }
-
-
         try{
             model.addAttribute("id", httpSession.getAttribute("iduser").toString());
         }catch (Exception e){
