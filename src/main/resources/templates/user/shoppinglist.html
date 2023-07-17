@@ -53,7 +53,7 @@
                 <tr>
                   <th scope="col">Nro. Orden</th>
                   <th scope="col">Fecha de Compra</th>
-                  <th scope="col">Valor</th>
+                  <th scope="col">Valor Total</th>
                   <th scope="col">Estado de la orden</th>
                   <th scope="col">Detalles</th>
                 </tr>
@@ -67,7 +67,7 @@
                 <tr>
                   <td th:text="${order.id}">4555454</td>
                   <td th:text="${#temporals.format(order.dateCreated, 'dd-MM-yyyy')}">Fecha de Compra</td>
-                  <td th:text="${order.getTotalOrderPrice()}">Total</td>
+                  <td th:text="${order.total}">Total</td>
                   <td th:text="${order.orderStatus}">estado</td>
                   <td><a class="btn btn-primary" th:href="@{#}" data-toggle="modal" th:data-target="'#orderModal-' + ${order.id}">Ver</a></td>
                 </tr>
@@ -110,14 +110,12 @@
               <tr>
                 <th>Nombre</th>
                 <th>Cantidad</th>
-                <th>Precio</th>
               </tr>
               </thead>
               <tbody>
               <tr th:each="orderProduct : ${order.orderProducts}">
                 <td th:text="${orderProduct.product.name}">Nombre</td>
                 <td th:text="${orderProduct.quantity}">Cantidad</td>
-                <td th:text="${orderProduct.product.price}">Precio</td>
               </tr>
               </tbody>
             </table>

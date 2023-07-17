@@ -6,6 +6,7 @@ import com.UAC.ecommerce.domain.User;
 import com.UAC.ecommerce.infrastructure.entity.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,7 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
+    @Transactional
     public Order createOrder(Order order){
         return orderRepository.createOrder(order);
     }

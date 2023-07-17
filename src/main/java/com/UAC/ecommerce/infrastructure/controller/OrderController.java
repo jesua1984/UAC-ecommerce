@@ -6,14 +6,15 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Controller
 @RequestMapping("user/order")
@@ -53,7 +54,7 @@ public class OrderController {
     }
 
     @GetMapping("/create-order")
-    public String createOrder(RedirectAttributes attributes, HttpSession httpSession, BindingResult bindingResult){
+    public String createOrder(RedirectAttributes attributes, HttpSession httpSession){
         log.info("create order..");
         log.info("id user desde la variable de sesion: {}",httpSession.getAttribute("iduser").toString());
 
@@ -66,54 +67,98 @@ public class OrderController {
             attributes.addFlashAttribute("message", "El carrito está vacío. No se puede crear la orden.");
             return "redirect:/user/order/sumary-order";
         }
-        int i= 0;
-        for (ItemCart itemCart : cartService.getItemCarts()){
 
-            List<Stock> stockList = stockService.getStockByProduct(productService.getProductById(itemCart.getIdProduct()));
-            Integer balance = stockList.get(stockList.size()-1).getBalance();
-            //acá se verifica si hay suficiente stock del producto.
-            if ((itemCart.getQuantity() > balance) || (balance == 0)){
-                attributes.addFlashAttribute("message", "Cantidad no disponible en el producto "+ itemCart.getNameProduct()+" vuelva a agregar el producto");
-                return "redirect:/user/order/sumary-order";
+        boolean hasEnoughStock = true;
+
+        for (ItemCart itemCart : cartService.getItemCarts()) {
+            Stock stock = new Stock();
+            Product product;
+            product = productService.getProductById(itemCart.getIdProduct());
+            stock.setProduct(product);
+            stock.setUnitOut(itemCart.getQuantity());
+            // Verificar si hay suficiente stock para el producto actual
+            if (!validateStock.hayStock(stock)) {
+                hasEnoughStock = false;
+                break;
             }
         }
 
-        //order
-        Order order= new Order();
-        order.setDateCreated(LocalDateTime.now());
-        order.setUser(user);
-        order.setOrderStatus("Creada");
 
-        order = orderService.createOrder(order);
+        if (hasEnoughStock) {
+            BigDecimal total = new BigDecimal(0);
+            for (ItemCart itemCart : cartService.getItemCarts()){
+                total = total.add(itemCart.getTotalPriceItem());
+                Stock stock = new Stock();
+                Product product;
+                product = productService.getProductById(itemCart.getIdProduct());
+                stock.setProduct(product);
+                stock.setUnitOut(itemCart.getQuantity());
+                //List<Stock> stockList = stockService.getStockByProduct(productService.getProductById(itemCart.getIdProduct()));
+                //Integer balance = stockList.get(stockList.size()-1).getBalance();
 
-        //order product
-        List<OrderProduct> orderProducts = new ArrayList<>();
+                //acá se verifica si hay suficiente stock del producto.
+        /*    if (!validateStock.hayStock(stock)){
+                attributes.addFlashAttribute("message", "Cantidad no disponible en el producto "+ itemCart.getNameProduct()+" Verifique si hay disponibilidad 1");
+                return "redirect:/user/order/sumary-order";
+            }*/
+                stock.setDateCreated(LocalDateTime.now());
+                stock.setDescription("Venta");
+                stock.setUnitIn(UNIT_IN);
 
-        //itemcart hacia orderproduct
+            }
 
-        for (ItemCart itemCart : cartService.getItemCarts()){
-            orderProducts.add(new OrderProduct(productService.getProductById(itemCart.getIdProduct()),itemCart.getQuantity(),order));
+            //order
+            Order order= new Order();
+            order.setDateCreated(LocalDateTime.now());
+            order.setUser(user);
+            order.setOrderStatus("Creada");
+            order.setTotal(total);
+            order = orderService.createOrder(order);
+
+            //order product
+            List<OrderProduct> orderProducts = new ArrayList<>();
+
+            //itemcart hacia orderproduct
+
+            for (ItemCart itemCart : cartService.getItemCarts()){
+                orderProducts.add(new OrderProduct(productService.getProductById(itemCart.getIdProduct()),itemCart.getQuantity(),order));
+            }
+            //guardar
+            AtomicBoolean stockExceptionOccurred = new AtomicBoolean(false);
+            orderProducts.forEach(
+                    op->{
+                        orderProductService.create(op);
+                        Stock stock = new Stock();
+                        stock.setDateCreated(LocalDateTime.now());
+                        stock.setProduct(op.getProduct());
+                        stock.setDescription("Venta");
+                        stock.setUnitIn(UNIT_IN);
+                        stock.setUnitOut(op.getQuantity());
+                        try {
+                            stockService.saveStock(validateStock.calculateBalance(stock));
+                        } catch (Exception e) {
+                            stockExceptionOccurred.set(true);
+                        }
+                    }
+            );
+            if (stockExceptionOccurred.get()) {
+                attributes.addFlashAttribute("message", "No hay suficiente stock disponible para el producto:  Verifique si hay disponibilidad");
+
+                return "redirect:/user/order/sumary-order";
+            }
+
+            //vaciar carrito
+            cartService.removeAllItemsCart();
+            //emailService.enviarCorreoOrdenCreada(user.getEmail(),order, orderProducts, total);
+            attributes.addFlashAttribute("id", httpSession.getAttribute("iduser").toString());
+            attributes.addFlashAttribute("success", "¡Su orden ha sido Creada con exito! " + total );
+            return "redirect:/home";
+
+        } else {
+            // No hay suficiente stock para algún producto, mostrar mensaje de error o redirigir a una página de error
+            attributes.addFlashAttribute("message", "No hay suficiente stock disponible para uno o más productos. Verifique si hay disponibilidad.");
+            return "redirect:/user/order/sumary-order";
         }
 
-        //guardar
-        orderProducts.forEach(
-                op->{
-                    orderProductService.create(op);
-                    Stock stock = new Stock();
-                    stock.setDateCreated(LocalDateTime.now());
-                    stock.setProduct(op.getProduct());
-                    stock.setDescription("Venta");
-                    stock.setUnitIn(UNIT_IN);
-                    stock.setUnitOut(op.getQuantity());
-                    stockService.saveStock(validateStock.calculateBalance(stock));
-
-                }
-        );
-        //vaciar carrito
-        cartService.removeAllItemsCart();
-        emailService.enviarCorreoOrdenCreada(user.getEmail(),order, orderProducts);
-        attributes.addFlashAttribute("id", httpSession.getAttribute("iduser").toString());
-        attributes.addFlashAttribute("success", "¡Su orden ha sido Creada con exito!");
-        return "redirect:/home";
     }
 }

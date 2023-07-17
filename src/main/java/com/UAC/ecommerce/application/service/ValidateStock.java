@@ -2,6 +2,7 @@ package com.UAC.ecommerce.application.service;
 
 import com.UAC.ecommerce.domain.Product;
 import com.UAC.ecommerce.domain.Stock;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class ValidateStock {
         return stockList.isEmpty() ? false : true;
     }
 
+    @Transactional
     public Stock calculateBalance(Stock stock){
         if (stock.getUnitIn() != 0){
             if(existBalance(stock.getProduct())){
@@ -34,4 +36,14 @@ public class ValidateStock {
         return stock;
 
     }
+    public Boolean hayStock(Stock stock){
+        List<Stock> stockList = stockService.getStockByProduct(stock.getProduct());
+        Integer balance = stockList.get(stockList.size()-1).getBalance();
+        if ((stock.getUnitOut() > balance) || (balance == 0)){
+            return false;
+        }
+        else
+            return true;
+    }
+
 }

@@ -3,6 +3,7 @@ package com.UAC.ecommerce.infrastructure.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,6 +16,8 @@ public class OrderEntity {
     private LocalDateTime dateCreated;
 
     private String orderStatus;
+
+    private BigDecimal total;
 
     @ManyToOne
     private  UserEntity user;

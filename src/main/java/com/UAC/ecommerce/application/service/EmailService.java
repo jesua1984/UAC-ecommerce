@@ -11,6 +11,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -27,9 +28,8 @@ public class EmailService {
 
     }
 
-    public void enviarCorreoOrdenCreada(String destinatario, Order order, List<OrderProduct> orderProducts) {
+    public void enviarCorreoOrdenCreada(String destinatario, Order order, List<OrderProduct> orderProducts, BigDecimal total) {
         try {
-
             MimeMessage mensaje = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
             LocalDateTime dateCreated = order.getDateCreated();
@@ -55,7 +55,6 @@ public class EmailService {
             contenido.append("<p><strong>Detalles de la Orden:</strong></p><br/>");
             contenido.append("<table border='1'>");
             contenido.append("<tr><th>Producto</th><th>Precio</th><th>Cantidad</th></tr>");
-
             orderProducts.forEach(
                     op -> {
                         contenido.append("<tr>");
@@ -63,11 +62,11 @@ public class EmailService {
                         contenido.append("<td>").append(op.getProduct().getPrice()).append("</td>");
                         contenido.append("<td>").append(op.getQuantity()).append("</td>");
                         contenido.append("</tr>");
+
                     }
             );
-
             contenido.append("</table><br/>");
-            //contenido.append("Precio Total: ").append(order.getTotalOrderPrice()).append("\n\n");
+            contenido.append("Precio Total: ").append(total.toString()).append("\n\n");
             contenido.append("<p>Gracias por tu compra.</p>");
             contenido.append("<p>Equipo de la Pescadería Fidyfer</p>");
             contenido.append("</body></html>");

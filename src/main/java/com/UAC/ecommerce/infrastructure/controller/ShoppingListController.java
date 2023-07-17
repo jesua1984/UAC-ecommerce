@@ -45,7 +45,6 @@ public class ShoppingListController {
             Order orderWithProducts = getOrdersProducts(order);
             newListOrder.add(orderWithProducts);
         }
-
         model.addAttribute("id", Long.valueOf(httpSession.getAttribute("iduser").toString()));
         model.addAttribute("orders", newListOrder);
         model.addAttribute("currentPage", ordersPage.getNumber());

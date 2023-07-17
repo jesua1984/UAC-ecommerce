@@ -15,6 +15,8 @@ public class Order {
     private List<OrderProduct> orderProducts;
     private User user;
 
+    private BigDecimal total;
+
     private String orderStatus;
 
     public void addOrdersProduct(List<OrderProduct> orderProducts){
