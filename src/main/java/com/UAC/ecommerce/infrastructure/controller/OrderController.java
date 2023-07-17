@@ -149,7 +149,7 @@ public class OrderController {
 
             //vaciar carrito
             cartService.removeAllItemsCart();
-            //emailService.enviarCorreoOrdenCreada(user.getEmail(),order, orderProducts, total);
+            emailService.enviarCorreoOrdenCreada(user.getEmail(),order, orderProducts, total);
             attributes.addFlashAttribute("id", httpSession.getAttribute("iduser").toString());
             attributes.addFlashAttribute("success", "¡Su orden ha sido Creada con exito! " + total );
             return "redirect:/home";
