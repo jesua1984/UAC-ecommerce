@@ -5,7 +5,6 @@ import com.UAC.ecommerce.application.service.CategoryService;
 import com.UAC.ecommerce.application.service.ProductService;
 import com.UAC.ecommerce.domain.Category;
 import com.UAC.ecommerce.domain.Product;
-import com.UAC.ecommerce.domain.Stock;
 import com.UAC.ecommerce.domain.User;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -89,14 +88,11 @@ public class ProductController {
             productService.deleteProductById(id);
             redirectAttributes.addFlashAttribute("mensaje", "Producto Eliminado correctamente")
                     .addFlashAttribute("clase", "success");
-            return "redirect:/admin/products/show";
-
         }catch (Exception e){
             redirectAttributes.addFlashAttribute("mensaje", "No es posible Eliminar, existen órdenes creadas con el producto")
                     .addFlashAttribute("clase", "danger");
-            return "redirect:/admin/products/show";
-
         }
+        return "redirect:/admin/products/show";
 
     }
 

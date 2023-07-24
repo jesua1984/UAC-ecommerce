@@ -18,6 +18,8 @@
   <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 
+
+
   <style>
 
 
@@ -79,7 +81,7 @@
         <td  style="text-align: center;">
           <div class="btn-group btn-group-sm">
             <a  class="btn btn-warning" th:href="@{/admin/products/edit/{id} (id = ${product.id}) }">Editar</a>
-            <a  class="btn btn-danger" th:href="@{/admin/products/delete/{id} (id = ${product.id}) }">Eliminar</a>
+            <a  class="btn btn-danger" th:onclick="eliminarProducto([[${product.id}]])">Eliminar</a>
             <a  class="btn btn-primary" th:href="@{/admin/products/stock/{id} (id = ${product.id}) }">Inventario</a>
           </div>
 
@@ -103,20 +105,23 @@
     </ul>
   </nav>
 
-  <!-- Success Message -->
-  <div id="success-message" th:if="${success}">
-    <span th:text="${success}"></span>
-  </div>
-
 </div>
 <!-- /.container -->
 
 <!-- Footer -->
   <div th:insert = "~{admin/template_admin::footer}"></div>
 
+  <!-- Success Message -->
+  <div id="success-message" th:if="${success!= null}">
+    <span th:text="${success}"></span>
+  </div>
+
 <!-- Bootstrap core JavaScript -->
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
 <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+  <script th:src="@{/vendor/js/js-custom.js}"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 </body>
 

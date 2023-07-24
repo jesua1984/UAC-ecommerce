@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Spring eCommerce</title>
+  <title>Usuarios</title>
 
 
   <!-- Bootstrap core CSS -->
@@ -18,6 +18,7 @@
   <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
   <!-- Toastr CSS -->
   <link th:href="@{/vendor/toastr/build/toastr.min.css}" rel="stylesheet">
+
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 
 </head>
@@ -81,7 +82,7 @@
       <td  style="text-align: center;">
         <div class="btn-group btn-group-sm">
           <a class="btn btn-warning" th:href="@{/admin/users/edit/{id} (id = ${user.id}) }">Editar</a>
-          <a th:if="${user.userStatus == 'ACTIVO'}" class="btn btn-danger" th:onclick="eliminar([[${user.id}]])">Baja</a>
+          <a th:if="${user.userStatus == 'ACTIVO'}" class="btn btn-danger" th:onclick="bajaUsuario([[${user.id}]])">Baja</a>
           <a th:if="${user.userStatus == 'INACTIVO'}" class="btn btn-success" th:href="@{/admin/users/activar/{id} (id = ${user.id}) }">Alta</a>
           <a class="btn btn-primary" th:href="@{/admin/orders/{id} (id = ${user.id}) }">Órdenes</a>
         </div>

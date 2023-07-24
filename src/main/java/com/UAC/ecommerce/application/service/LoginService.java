@@ -22,6 +22,15 @@ public class LoginService {
         return true;
     }
 
+    public boolean statusUser(String email){
+            User user = userService.findByEmail(email);
+            if (user.getUserStatus() == "ACTIVO"){
+                return true;
+            }
+            else
+                return false;
+    }
+
     //obtenemos el id del usuario
     public Long getUserId(String email){
         try{

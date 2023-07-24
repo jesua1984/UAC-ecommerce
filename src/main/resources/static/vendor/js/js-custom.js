@@ -143,7 +143,7 @@ function checkPasswordStrength(password) {
   }
 }
 
-function eliminar(id){
+function bajaUsuario(id){
     swal({
       title: "¿Está seguro de dar de baja?",
       text: "esta acción establecerá al usuario en estado inactivo y no podrá ingresar al sistema!",
@@ -167,10 +167,81 @@ function eliminar(id){
             }
         });
       } else {
-        swal("Se ha cancelado la eliminación!");
+        swal("Se ha cancelado la acción!");
       }
     });
 }
+
+function eliminarProducto(id) {
+  swal({
+    title: "¿Está seguro de eliminar?",
+    text: "Esta acción eliminará el producto del sistema y no podrá hacer uso de él.",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+    .then((OK) => {
+      if (OK) {
+        $.ajax({
+          url: "/admin/products/delete/" + id,
+          success: function (res) {
+            console.log(res);
+            swal("¡Se ha eliminado el producto", {
+              icon: "success",
+            }).then((ok) => {
+              if (ok) {
+                location.href = "/admin/products/show";
+              }
+            });
+          },
+          error: function (err) {
+            console.error(err);
+            swal("No es posible eliminar. Ya existen órdenes creadas con el producto", {
+              icon: "error",
+            });
+          },
+        });
+      } else {
+        swal("Se ha cancelado la acción.");
+      }
+    });
+}
+
+function eliminarCategoria(id) {
+  swal({
+    title: "¿Está seguro de eliminar?",
+    text: "Esta acción eliminará la categoría del sistema y no podrá hacer uso de ella.",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+    .then((OK) => {
+      if (OK) {
+        $.ajax({
+          url: "/admin/categories/delete/" + id,
+          success: function (res) {
+            console.log(res);
+            swal("¡Se ha eliminado la categoría", {
+              icon: "success",
+            }).then((ok) => {
+              if (ok) {
+                location.href = "/admin/categories/show";
+              }
+            });
+          },
+          error: function (err) {
+            console.error(err);
+            swal("No es posible eliminar. Ya existen productos creados con la categoría", {
+              icon: "error",
+            });
+          },
+        });
+      } else {
+        swal("Se ha cancelado la acción.");
+      }
+    });
+}
+
 
 <!-- Agrega este código JavaScript/jQuery después de cargar jQuery y Bootstrap JavaScript -->
 

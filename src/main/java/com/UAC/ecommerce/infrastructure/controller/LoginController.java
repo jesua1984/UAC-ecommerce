@@ -37,11 +37,14 @@ public class LoginController {
         User user = loginService.getUser(Long.valueOf(httpSession.getAttribute("iduser").toString())) ;
         attributes.addFlashAttribute("id", httpSession.getAttribute("iduser").toString());
             if (loginService.existUser(user.getEmail())){
-                if(loginService.getUserType(user.getEmail()).name().equals("ADMIN")){
-                    return "redirect:/admin";
-                }else{
-                    return "redirect:/home";
+                if (loginService.statusUser(user.getEmail())){
+                    if(loginService.getUserType(user.getEmail()).name().equals("ADMIN")){
+                        return "redirect:/admin";
+                    }else{
+                        return "redirect:/home";
+                    }
                 }
+
             }
                 return "redirect:/home";
     }
