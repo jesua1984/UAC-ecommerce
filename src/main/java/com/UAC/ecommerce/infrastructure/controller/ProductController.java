@@ -79,7 +79,7 @@ public class ProductController {
         Product product = productService.getProductById(id);
         log.info("producto obtenido: {}",product);
         model.addAttribute("product", product);
-        return "/admin/products/edit";
+        return "admin/products/edit";
     }
 
     @GetMapping("/delete/{id}")
